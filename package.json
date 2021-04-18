@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ryo4004/notification/issues"
   },
-  "homepage": "https://github.com/ryo4004/notification#readme"
+  "homepage": "https://github.com/ryo4004/notification#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
