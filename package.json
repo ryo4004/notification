@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node ./src/app.ts",
+    "start-dev": "ts-node-dev ./src/app.ts",
+    "build": "tsc",
+    "lint": "eslint ./src --config .eslintrc.json",
+    "typecheck": "tsc --noEmit",
+    "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,md}'"
   },
   "repository": {
     "type": "git",
