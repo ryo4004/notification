@@ -44,13 +44,18 @@ const update = (_id: string, newData: TokenData): Promise<number | null> => {
   })
 }
 
-export const addToken = async (id: string, useragent: string, token: string): Promise<TokenData | null> => {
+export const addToken = async (
+  id: string,
+  useragent: string,
+  token: string,
+  status: boolean
+): Promise<TokenData | null> => {
   const tokenData = await find(id)
   if (tokenData) {
     // 既に有効にしたことがある
     const newData = {
       ...tokenData,
-      status: true,
+      status,
     }
     const updateResult = await update(tokenData._id, newData)
     if (!updateResult) return null
@@ -59,7 +64,7 @@ export const addToken = async (id: string, useragent: string, token: string): Pr
     // 初めて有効にする
     const newData: TokenData = {
       token,
-      status: true,
+      status,
       id,
       useragent,
       topics: defaultTopics,

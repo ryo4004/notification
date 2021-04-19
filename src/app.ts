@@ -17,14 +17,14 @@ app.use((req, res, next) => {
   next()
 })
 
-app.post('/add_token', async (req, res) => {
-  const { session, token }: { session: Session; token: string } = req.body
-  console.log('[' + lib.showTime() + '] /add_token: ' + session.userid)
+app.post('/update_token', async (req, res) => {
+  const { session, token, status }: { session: Session; token: string; status: boolean } = req.body
+  console.log('[' + lib.showTime() + '] /update_token: ' + session.userid)
   const authResult = await auth(session)
   if (!authResult) return res.json({ status: false })
-  const tokenResult = await libToken.addToken(session.userid, session.useragent, token)
+  const tokenResult = await libToken.updateToken(session.userid, session.useragent, token, status)
   if (!tokenResult) return res.json({ status: false })
-  return res.json({ status: true, result: tokenResult })
+  return res.json({ status: true, updated: tokenResult })
 })
 
 app.post('/update_token')
