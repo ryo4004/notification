@@ -17,9 +17,9 @@ const defaultTopics: Topics = {
   archiveUpdate: false,
 }
 
-const find = (id: string): Promise<TokenDBData | null> => {
+const find = (token: string): Promise<TokenDBData | null> => {
   return new Promise((resolve) => {
-    tokenDB.findOne({ id }, (error, doc) => {
+    tokenDB.findOne({ token }, (error, doc) => {
       if (error) return resolve(null)
       resolve(doc)
     })
@@ -37,7 +37,7 @@ const insert = (newData: TokenData): Promise<true | null> => {
 
 const update = (_id: string, newData: TokenData): Promise<number | null> => {
   return new Promise((resolve) => {
-    tokenDB.update(_id, newData, {}, (error, num) => {
+    tokenDB.update({ _id }, newData, {}, (error, num) => {
       if (error) return resolve(null)
       resolve(num)
     })
@@ -50,7 +50,7 @@ export const updateToken = async (
   token: string,
   status: boolean
 ): Promise<TokenData | null> => {
-  const tokenData = await find(id)
+  const tokenData = await find(token)
   if (tokenData) {
     // 既に有効にしたことがある
     const newData = {
