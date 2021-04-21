@@ -44,7 +44,7 @@ const update = (_id: string, newData: TokenData): Promise<number | null> => {
   })
 }
 
-export const addToken = async (
+export const updateToken = async (
   id: string,
   useragent: string,
   token: string,

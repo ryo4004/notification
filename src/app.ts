@@ -29,6 +29,14 @@ app.post('/update_token', async (req, res) => {
 
 app.post('/update_token')
 app.post('/remove_notification')
-app.post('/update_request')
+
+type UpdateTopicReq = { session: Session; token: string; topicName: string; status: boolean }
+app.post('/update_topic', async (req, res) => {
+  const { session, token, topicName, status }: UpdateTopicReq = req.body
+  console.log('[' + lib.showTime() + '] /update_token: ' + session.userid)
+  const authResult = await auth(session)
+  if (!authResult) return res.json({ status: false })
+  const topicResult= await libToken.updateTopic(token, )
+})
 
 app.listen(3011)
