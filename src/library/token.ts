@@ -44,6 +44,23 @@ const update = (_id: string, newData: TokenData): Promise<number | null> => {
   })
 }
 
+export const getStatus = async (token: string) => {
+  const tokenData = await find(token)
+  if (tokenData) {
+    return {
+      status: tokenData.status,
+      token: tokenData.token,
+      topics: tokenData.topics,
+    }
+  } else {
+    return {
+      status: false,
+      token: '',
+      topics: null,
+    }
+  }
+}
+
 export const updateToken = async (
   id: string,
   useragent: string,

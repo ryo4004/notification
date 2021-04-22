@@ -17,6 +17,15 @@ app.use((req, res, next) => {
   next()
 })
 
+app.post('/get_status', async (req, res) => {
+  const { session, token }: { session: Session; token: string } = req.body
+  console.log('[' + lib.showTime() + '] /get_status: ' + session.userid)
+  const authResult = await auth(session)
+  if (!authResult) return res.json({ status: false })
+  const tokenResult = await libToken.getStatus(token)
+  return res.json({ status: true, tokenResult })
+})
+
 app.post('/update_token', async (req, res) => {
   const { session, token, status }: { session: Session; token: string; status: boolean } = req.body
   console.log('[' + lib.showTime() + '] /update_token: ' + session.userid)
