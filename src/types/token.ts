@@ -1,10 +1,9 @@
 export type Topics = {
-  schedule: boolean // 練習開始時刻に通知
+  importantSchedule: boolean // 練習開始時刻に通知
+  importantManager: boolean // 事務局からのお知らせを更新したら通知
   scheduleUpdate: boolean // 練習日程を更新したら通知
-  sourceUpdate: boolean // 参考音源を更新したら通知
   historyUpdate: boolean // 練習の記録を更新したら通知
-  managerUpdate: boolean // 事務局からのお知らせを更新したら通知
-  archiveUpdate: boolean // アーカイブを更新したら通知
+  othersUpdate: boolean // その他の更新をしたら通知
 }
 
 export type TokenData = {

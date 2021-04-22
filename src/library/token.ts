@@ -9,17 +9,17 @@ const tokenDB = new NeDB({
 })
 
 const defaultTopics: Topics = {
-  schedule: true, // scheduleのみ有効
+  importantSchedule: true,
+  importantManager: true,
   scheduleUpdate: false,
-  sourceUpdate: false,
   historyUpdate: false,
-  managerUpdate: false,
-  archiveUpdate: false,
+  othersUpdate: false,
 }
 
 const find = (token: string): Promise<TokenDBData | null> => {
   return new Promise((resolve) => {
     tokenDB.findOne({ token }, (error, doc) => {
+      console.log({ error, doc })
       if (error) return resolve(null)
       resolve(doc)
     })
@@ -56,7 +56,7 @@ export const getStatus = async (token: string) => {
     return {
       status: false,
       token: '',
-      topics: null,
+      topics: {},
     }
   }
 }
@@ -66,7 +66,7 @@ export const updateToken = async (
   useragent: string,
   token: string,
   status: boolean
-): Promise<TokenData | null> => {
+): Promise<{ result: TokenData | null; error: boolean }> => {
   const tokenData = await find(token)
   if (tokenData) {
     // 既に有効にしたことがある
@@ -75,8 +75,8 @@ export const updateToken = async (
       status,
     }
     const updateResult = await update(tokenData._id, newData)
-    if (!updateResult) return null
-    return newData
+    if (!updateResult) return { result: null, error: true }
+    return { result: newData, error: false }
   } else {
     // 初めて有効にする
     const newData: TokenData = {
@@ -87,7 +87,7 @@ export const updateToken = async (
       topics: defaultTopics,
     }
     const insertResult = await insert(newData)
-    if (!insertResult) return null
-    return newData
+    if (!insertResult) return { result: null, error: true }
+    return { result: newData, error: false }
   }
 }

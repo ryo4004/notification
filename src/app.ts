@@ -23,7 +23,7 @@ app.post('/get_status', async (req, res) => {
   const authResult = await auth(session)
   if (!authResult) return res.json({ status: false })
   const tokenResult = await libToken.getStatus(token)
-  return res.json({ status: true, tokenResult })
+  return res.json({ status: true, updated: tokenResult })
 })
 
 app.post('/update_token', async (req, res) => {
@@ -32,8 +32,8 @@ app.post('/update_token', async (req, res) => {
   const authResult = await auth(session)
   if (!authResult) return res.json({ status: false })
   const tokenResult = await libToken.updateToken(session.userid, session.useragent, token, status)
-  if (!tokenResult) return res.json({ status: false })
-  return res.json({ status: true, updated: tokenResult })
+  if (tokenResult.error) return res.json({ status: false })
+  return res.json({ status: true, updated: tokenResult.result })
 })
 
 app.post('/update_token')
