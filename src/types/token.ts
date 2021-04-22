@@ -6,6 +6,8 @@ export type Topics = {
   othersUpdate: boolean // その他の更新をしたら通知
 }
 
+export type TopicsKeys = keyof Topics
+
 export type TokenData = {
   token: string // 一意
   status: boolean // プッシュ通知の有効/無効

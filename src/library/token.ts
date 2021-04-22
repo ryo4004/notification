@@ -1,7 +1,7 @@
 import path from 'path'
 import NeDB from 'nedb'
 
-import type { Topics, TokenData, TokenDBData } from '../types/token'
+import type { Topics, TopicsKeys, TokenData, TokenDBData } from '../types/token'
 
 const tokenDB = new NeDB({
   filename: path.join(__dirname, '../database/token.db'),
@@ -19,7 +19,6 @@ const defaultTopics: Topics = {
 const find = (token: string): Promise<TokenDBData | null> => {
   return new Promise((resolve) => {
     tokenDB.findOne({ token }, (error, doc) => {
-      console.log({ error, doc })
       if (error) return resolve(null)
       resolve(doc)
     })
@@ -90,4 +89,19 @@ export const updateToken = async (
     if (!insertResult) return { result: null, error: true }
     return { result: newData, error: false }
   }
+}
+
+export const updateTopic = async (token: string, topicName: TopicsKeys) => {
+  const tokenData = await find(token)
+  if (!tokenData) return { result: null, error: true }
+  const newTokenData = {
+    ...tokenData,
+    topics: {
+      ...tokenData.topics,
+      [topicName]: !tokenData.topics[topicName],
+    },
+  }
+  const updateResult = await update(tokenData._id, newTokenData)
+  if (!updateResult) return { result: null, error: true }
+  return { result: newTokenData, error: false }
 }

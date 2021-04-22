@@ -4,6 +4,7 @@ import * as lib from './library/library'
 import * as libToken from './library/token'
 
 import type { Session } from './types/auth'
+import type { TopicsKeys } from './types/token'
 
 const app = express()
 
@@ -36,16 +37,15 @@ app.post('/update_token', async (req, res) => {
   return res.json({ status: true, updated: tokenResult.result })
 })
 
-app.post('/update_token')
-app.post('/remove_notification')
-
-type UpdateTopicReq = { session: Session; token: string; topicName: string; status: boolean }
+type UpdateTopicReq = { session: Session; token: string; topicName: TopicsKeys }
 app.post('/update_topic', async (req, res) => {
-  const { session, token, topicName, status }: UpdateTopicReq = req.body
-  console.log('[' + lib.showTime() + '] /update_token: ' + session.userid)
+  const { session, token, topicName }: UpdateTopicReq = req.body
+  console.log('[' + lib.showTime() + '] /update_topic: ' + session.userid, topicName)
   const authResult = await auth(session)
   if (!authResult) return res.json({ status: false })
-  const topicResult= await libToken.updateTopic(token, )
+  const topicResult = await libToken.updateTopic(token, topicName)
+  if (topicResult.error) return res.json({ status: false })
+  return res.json({ status: true, updated: topicResult.result })
 })
 
 app.listen(3011)
