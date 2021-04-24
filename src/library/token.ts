@@ -1,7 +1,7 @@
 import path from 'path'
 import NeDB from 'nedb'
 
-import type { Topics, TopicsKeys, TokenData, TokenDBData } from '../types/token'
+import type { Topics, TopicsKeys, TokenData, TokenDBData, StatusReturnType } from '../types/token'
 
 const tokenDB = new NeDB({
   filename: path.join(__dirname, '../database/token.db'),
@@ -43,7 +43,7 @@ const update = (_id: string, newData: TokenData): Promise<number | null> => {
   })
 }
 
-export const getStatus = async (token: string) => {
+export const getStatus = async (token: string): Promise<StatusReturnType> => {
   const tokenData = await find(token)
   if (tokenData) {
     return {
@@ -55,7 +55,7 @@ export const getStatus = async (token: string) => {
     return {
       status: false,
       token: '',
-      topics: {},
+      topics: null,
     }
   }
 }
@@ -65,7 +65,7 @@ export const updateToken = async (
   useragent: string,
   token: string,
   status: boolean
-): Promise<{ result: TokenData | null; error: boolean }> => {
+): Promise<{ result: StatusReturnType | null; error: boolean }> => {
   const tokenData = await find(token)
   if (tokenData) {
     // 既に有効にしたことがある
@@ -75,7 +75,12 @@ export const updateToken = async (
     }
     const updateResult = await update(tokenData._id, newData)
     if (!updateResult) return { result: null, error: true }
-    return { result: newData, error: false }
+    const newStatus = {
+      status: newData.status,
+      token: newData.token,
+      topics: newData.topics,
+    }
+    return { result: newStatus, error: false }
   } else {
     // 初めて有効にする
     const newData: TokenData = {
@@ -87,21 +92,34 @@ export const updateToken = async (
     }
     const insertResult = await insert(newData)
     if (!insertResult) return { result: null, error: true }
-    return { result: newData, error: false }
+    const newStatus = {
+      status: newData.status,
+      token: newData.token,
+      topics: newData.topics,
+    }
+    return { result: newStatus, error: false }
   }
 }
 
-export const updateTopic = async (token: string, topicName: TopicsKeys) => {
+export const updateTopic = async (
+  token: string,
+  topicName: TopicsKeys
+): Promise<{ result: StatusReturnType | null; error: boolean }> => {
   const tokenData = await find(token)
   if (!tokenData) return { result: null, error: true }
-  const newTokenData = {
+  const newData = {
     ...tokenData,
     topics: {
       ...tokenData.topics,
       [topicName]: !tokenData.topics[topicName],
     },
   }
-  const updateResult = await update(tokenData._id, newTokenData)
+  const updateResult = await update(tokenData._id, newData)
   if (!updateResult) return { result: null, error: true }
-  return { result: newTokenData, error: false }
+  const newStatus = {
+    status: newData.status,
+    token: newData.token,
+    topics: newData.topics,
+  }
+  return { result: newStatus, error: false }
 }

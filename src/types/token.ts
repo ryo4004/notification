@@ -19,3 +19,9 @@ export type TokenData = {
 export type TokenDBData = TokenData & {
   _id: string
 }
+
+export type StatusReturnType = {
+  status: boolean
+  token: string
+  topics: Topics | null
+}
