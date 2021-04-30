@@ -18,6 +18,12 @@ app.use((req, res, next) => {
   next()
 })
 
+// ルートアクセス
+app.get('/', (req, res) => {
+  console.log('[' + lib.showTime() + '] root access')
+  res.redirect(301, 'https://winds-n.com')
+})
+
 app.post('/get_status', async (req, res) => {
   const { session, token }: { session: Session; token: string } = req.body
   console.log('[' + lib.showTime() + '] /get_status: ' + session.userid)
