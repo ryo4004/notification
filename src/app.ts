@@ -27,12 +27,22 @@ app.post('/get_status', async (req, res) => {
   return res.json({ status: true, updated: tokenResult })
 })
 
-app.post('/update_token', async (req, res) => {
-  const { session, token, status }: { session: Session; token: string; status: boolean } = req.body
-  console.log('[' + lib.showTime() + '] /update_token: ' + session.userid)
+app.post('/add_notification', async (req, res) => {
+  const { session, token }: { session: Session; token: string } = req.body
+  console.log('[' + lib.showTime() + '] /add_notification: ' + session.userid)
   const authResult = await auth(session)
   if (!authResult) return res.json({ status: false })
-  const tokenResult = await libToken.updateToken(session.userid, session.useragent, token, status)
+  const tokenResult = await libToken.updateToken(session.userid, session.useragent, token, true)
+  if (tokenResult.error) return res.json({ status: false })
+  return res.json({ status: true, updated: tokenResult.result })
+})
+
+app.post('/remove_notification', async (req, res) => {
+  const { session, token }: { session: Session; token: string } = req.body
+  console.log('[' + lib.showTime() + '] /remove_notification: ' + session.userid)
+  const authResult = await auth(session)
+  if (!authResult) return res.json({ status: false })
+  const tokenResult = await libToken.updateToken(session.userid, session.useragent, token, false)
   if (tokenResult.error) return res.json({ status: false })
   return res.json({ status: true, updated: tokenResult.result })
 })
