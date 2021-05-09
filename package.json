@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "firebase-admin": "^9.6.0",
     "nedb": "^1.8.0",
+    "secrets": "git+ssh://git@secrets:winds-nagaoka/secrets.git",
     "superagent": "^6.1.0"
   },
   "devDependencies": {
