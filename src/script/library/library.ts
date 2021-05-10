@@ -10,7 +10,7 @@ const tokenDB = new NeDB({
 
 export const getAllTokens = (): Promise<TokenDBData[] | null> => {
   return new Promise((resolve) => {
-    tokenDB.find({ status: true }, (error: any, docs: TokenDBData[] | null) => {
+    tokenDB.find({ status: true }, (error: unknown, docs: TokenDBData[] | null) => {
       if (error) return resolve(null)
       resolve(docs)
     })
