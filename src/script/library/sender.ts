@@ -1,5 +1,5 @@
 import admin from 'firebase-admin'
-import { firebaseConfig } from 'secrets/firebase/config'
+import firebaseConfig from './firebase/config'
 
 export class Sender {
   title: string
@@ -19,20 +19,20 @@ export class Sender {
     this.available = false
   }
 
-  setNotification(title: string, body: string) {
+  setNotification(title: string, body: string): void {
     this.title = title
     this.body = body
   }
 
-  setTokens(tokens: string[]) {
+  setTokens(tokens: string[]): void {
     this.tokens = tokens
   }
 
-  setPath(path: string) {
+  setPath(path: string): void {
     this.path = path
   }
 
-  check() {
+  check(): boolean {
     if (this.title === '' || this.body === '') {
       console.log('no title or body')
       return false
@@ -44,7 +44,7 @@ export class Sender {
     return true
   }
 
-  send() {
+  send(): void | false {
     const available = this.check()
     if (!available) {
       return false
@@ -71,7 +71,7 @@ export class Sender {
         notification: {
           sound: 'default',
           color: '#b60005',
-          priority: 'high' as 'high',
+          priority: 'high' as const,
         },
       },
       fcm_options: {

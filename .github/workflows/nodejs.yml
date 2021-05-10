@@ -12,6 +12,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: mkdir ./src/script/library/firebase
+    - run: echo "export default {} as unknown" > ./src/script/library/firebase/config.ts
     - run: yarn install
     - run: yarn lint
     - run: yarn typecheck
