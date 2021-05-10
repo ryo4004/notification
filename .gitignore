@@ -6,3 +6,6 @@
 
 # database
 *.db
+
+# firebase config
+/src/script/library/firebase/*

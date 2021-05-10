@@ -1,5 +1,5 @@
 import admin from 'firebase-admin'
-import { firebaseConfig } from 'secrets/firebase/config'
+import firebaseConfig from './firebase/config'
 
 export class Sender {
   title: string
