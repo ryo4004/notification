@@ -15,6 +15,7 @@ jobs:
     - run: mkdir ./src/script/library/firebase
     - run: echo "export default {} as unknown" > ./src/script/library/firebase/config.ts
     - run: yarn install
+    - run: yarn test
     - run: yarn lint
     - run: yarn typecheck
     - run: yarn build
