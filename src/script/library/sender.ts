@@ -7,6 +7,7 @@ export class Sender {
   path: string
   tokens: Array<string>
   available: boolean
+  analytics: string
 
   constructor() {
     admin.initializeApp({
@@ -17,6 +18,7 @@ export class Sender {
     this.path = ''
     this.tokens = []
     this.available = false
+    this.analytics = 'notification_winds'
   }
 
   setNotification(title: string, body: string): void {
@@ -30,6 +32,10 @@ export class Sender {
 
   setPath(path: string): void {
     this.path = path
+  }
+
+  setAnalytics(analytics: string): void {
+    this.analytics = analytics
   }
 
   check(): boolean {
@@ -75,7 +81,7 @@ export class Sender {
         },
       },
       fcm_options: {
-        analytics_label: 'notification_winds',
+        analytics_label: this.analytics,
       },
       tokens: this.tokens,
     }

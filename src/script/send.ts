@@ -13,6 +13,7 @@ import { getAllTokens, getActiveTokens, getActiveTokensWithTopic, getTokensOnly 
   const sender = new Sender()
   sender.setNotification('テスト', 'おためし')
   sender.setPath('/practice')
+  sender.setAnalytics('notification_practice')
   sender.setTokens(tokens)
   sender.send()
 })()
