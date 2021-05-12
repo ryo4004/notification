@@ -11,7 +11,7 @@ export type EachSchedule = {
   memo: string | boolean // "楽譜整理"
 }
 
-export type Schedule = {
+export type ScheduleList = {
   timestamp: {
     date: string // "2021-05-13",
     time: string // "00:22",

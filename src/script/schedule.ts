@@ -1,8 +1,8 @@
 import fetch from 'node-fetch'
 
-import type { Schedule, EachSchedule } from '../types/schedule'
+import type { ScheduleList, EachSchedule } from '../types/schedule'
 
-const getTodaySchedule = (schedule: Schedule): EachSchedule | false => {
+const getTodaySchedule = (schedule: ScheduleList): EachSchedule | false => {
   if (!schedule.today) {
     return false
   }
@@ -14,34 +14,39 @@ const getMonth = (date: Date) => ('0' + (date.getMonth() + 1)).slice(-2)
 const getDate = (date: Date) => ('0' + date.getDate()).slice(-2)
 const getHour = (date: Date) => ('0' + date.getHours()).slice(-2)
 const getMinute = (date: Date) => ('0' + date.getMinutes()).slice(-2)
-const getSeconds = (date: Date) => ('0' + date.getSeconds()).slice(-2)
+// const getSeconds = (date: Date) => ('0' + date.getSeconds()).slice(-2)
 
-const formattedDateTime = (date: Date) => {
-  return (
-    getYear(date) +
-    '年' +
-    getMonth(date) +
-    '月' +
-    getDate(date) +
-    '日' +
-    getHour(date) +
-    '時' +
-    getMinute(date) +
-    '分' +
-    getSeconds(date) +
-    '秒'
-  )
+const diffTodayWithSchedule = (scheduled: EachSchedule) => {
+  const date = new Date()
+  // 日付の比較
+  const todayString = getYear(date) + '-' + getMonth(date) + '-' + getDate(date)
+  if (scheduled.date !== todayString) {
+    return false
+  }
+  // 時刻の比較
+  const hour = getHour(date) + ':' + getMinute(date)
+  const scheduledStartTime = scheduled.time.start
+  if (scheduledStartTime !== hour) {
+    return false
+  }
+  return true
 }
 
-
 // 練習日程を取得する
+// 必ず1時間に1回動かす
 ;(async () => {
   const response = await fetch('https://api.winds-n.com/schedule', { method: 'POST' })
-  const schedule: Schedule = await response.json()
-  console.log({ schedule })
-  const today = getTodaySchedule(schedule)
-  console.log({ today })
-  const date = new Date()
-  const currentTime = formattedDateTime(date)
-  console.log(currentTime)
+  const scheduleList: ScheduleList = await response.json()
+  console.log({ scheduleList })
+  const scheduled = getTodaySchedule(scheduleList)
+  console.log({ scheduled })
+  if (!scheduled) {
+    console.log('not today')
+    return false
+  }
+  const available = diffTodayWithSchedule(scheduled)
+  if (!available) {
+    console.log('not present time')
+    return false
+  }
 })()
