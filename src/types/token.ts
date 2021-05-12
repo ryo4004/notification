@@ -6,6 +6,14 @@ export type Topics = {
   othersUpdate: boolean // その他の更新をしたら通知
 }
 
+export const TOPICS_KEYS = {
+  IMPORTANT_SCHEDULE: 'importantSchedule',
+  IMPORTANT_MANAGER: 'importantManager',
+  SCHEDULE_UPDATE: 'scheduleUpdate',
+  HISTORY_UPDATE: 'historyUpdate',
+  OTHERS_UPDATE: 'othersUpdate',
+} as const
+
 export type TopicsKeys = keyof Topics
 
 export type TokenData = {

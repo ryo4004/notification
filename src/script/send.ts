@@ -1,19 +1,11 @@
-import { Sender } from './library/sender'
-import { getAllTokens, getActiveTokens, getActiveTokensWithTopic, getTokensOnly } from './library/library'
+import { createSenderClass } from './library/sender'
+import { TOPICS_KEYS } from '../types/token'
 
 // 通知を作成して送信する
 ;(async () => {
-  const allTokens = await getAllTokens()
-  if (!allTokens || allTokens.length === 0) {
-    return console.log('no tokens')
-  }
-  const activeTokens = getActiveTokens(allTokens)
-  const activeTokensWithTopic = getActiveTokensWithTopic(activeTokens, 'importantSchedule')
-  const tokens = getTokensOnly(activeTokensWithTopic)
-  const sender = new Sender()
+  const sender = await createSenderClass(TOPICS_KEYS.IMPORTANT_SCHEDULE)
   sender.setNotification('テスト', 'おためし')
   sender.setPath('/practice')
   sender.setAnalytics('notification_practice')
-  sender.setTokens(tokens)
   sender.send()
 })()

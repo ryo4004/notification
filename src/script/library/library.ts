@@ -4,7 +4,7 @@ import NeDB from 'nedb'
 import { TokenDBData, TopicsKeys } from '../../types/token'
 
 const tokenDB = new NeDB({
-  filename: path.join(__dirname, '../../database/token.db'),
+  filename: path.join(__dirname, '../../../database/token.db'),
   autoload: true,
 })
 

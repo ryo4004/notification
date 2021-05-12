@@ -1,24 +1,43 @@
 import admin from 'firebase-admin'
 import firebaseConfig from './firebase/config'
+import { getAllTokens, getActiveTokens, getActiveTokensWithTopic, getTokensOnly } from './library'
+import type { TopicsKeys } from '../../types/token'
 
-export class Sender {
+export const createSenderClass = async (topicKey: TopicsKeys): Promise<Sender> => {
+  const sender = new Sender(topicKey)
+  await sender.init()
+  return sender
+}
+
+class Sender {
+  topicKey: TopicsKeys
   title: string
   body: string
   path: string
   tokens: Array<string>
-  available: boolean
   analytics: string
 
-  constructor() {
+  constructor(topicKey: TopicsKeys) {
     admin.initializeApp({
       credential: admin.credential.cert(JSON.parse(JSON.stringify(firebaseConfig))),
     })
+    this.topicKey = topicKey
     this.title = ''
     this.body = ''
     this.path = ''
     this.tokens = []
-    this.available = false
     this.analytics = 'notification_winds'
+  }
+
+  async init(): Promise<void | false> {
+    const allTokens = await getAllTokens()
+    if (!allTokens || allTokens.length === 0) {
+      return false
+    }
+    const activeTokens = getActiveTokens(allTokens)
+    const activeTokensWithTopic = getActiveTokensWithTopic(activeTokens, this.topicKey)
+    const tokens = getTokensOnly(activeTokensWithTopic)
+    this.tokens = tokens
   }
 
   setNotification(title: string, body: string): void {

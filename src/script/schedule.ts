@@ -1,5 +1,8 @@
 import fetch from 'node-fetch'
 
+import { createSenderClass } from './library/sender'
+import { TOPICS_KEYS } from '../types/token'
+
 import type { ScheduleList, EachSchedule } from '../types/schedule'
 
 const getTodaySchedule = (schedule: ScheduleList): EachSchedule | false => {
@@ -37,9 +40,7 @@ const diffTodayWithSchedule = (scheduled: EachSchedule) => {
 ;(async () => {
   const response = await fetch('https://api.winds-n.com/schedule', { method: 'POST' })
   const scheduleList: ScheduleList = await response.json()
-  console.log({ scheduleList })
   const scheduled = getTodaySchedule(scheduleList)
-  console.log({ scheduled })
   if (!scheduled) {
     console.log('not today')
     return false
@@ -49,4 +50,9 @@ const diffTodayWithSchedule = (scheduled: EachSchedule) => {
     console.log('not present time')
     return false
   }
+  const sender = await createSenderClass(TOPICS_KEYS.IMPORTANT_SCHEDULE)
+  sender.setNotification('テスト', 'おためし')
+  sender.setPath('/practice')
+  sender.setAnalytics('notification_practice')
+  sender.send()
 })()
