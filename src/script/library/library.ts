@@ -3,9 +3,9 @@ import NeDB from 'nedb'
 
 import { TokenDBData, TopicsKeys, SentData } from '../../types/token'
 
-export const getAllTokens = (): Promise<TokenDBData[] | null> => {
+export const getAllTokens = (databasePath = '../../../database/token.db'): Promise<TokenDBData[] | null> => {
   const tokenDB = new NeDB({
-    filename: path.join(__dirname, '../../../database/token.db'),
+    filename: path.join(__dirname, databasePath),
     autoload: true,
   })
   return new Promise((resolve) => {
@@ -28,9 +28,12 @@ export const getActiveTokensWithTopic = (tokens: TokenDBData[], key: TopicsKeys)
   return tokens.filter((t) => t.topics[key] === true)
 }
 
-export const saveSent = (newData: SentData): Promise<true | null> => {
+export const saveSent = (
+  newData: SentData,
+  databasePath = '../../../database/sent.db'
+): Promise<true | null> => {
   const sentDB = new NeDB({
-    filename: path.join(__dirname, '../../../database/sent.db'),
+    filename: path.join(__dirname, databasePath),
     autoload: true,
   })
   return new Promise((resolve) => {

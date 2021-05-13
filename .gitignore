@@ -5,7 +5,7 @@
 /build
 
 # database
-*.db
+/database/*.db
 
 # firebase config
 /src/script/library/firebase/*
