@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 
 import { createSenderClass } from './library/sender'
-import { getTodaySchedule, validateToday } from './library/schedule'
+import { getTodaySchedule, getTodayString, getPresentTimeString, validateToday } from './library/schedule'
 import { getDateTime } from './library/library'
 import { TOPICS_KEYS } from '../types/token'
 
@@ -18,7 +18,9 @@ import type { ScheduleList } from '../types/schedule'
     console.log('[schedule] done: not today')
     return false
   }
-  const available = validateToday(scheduled)
+  const todayString = getTodayString()
+  const presentTimeString = getPresentTimeString()
+  const available = validateToday(scheduled, todayString, presentTimeString)
   if (!available) {
     console.log('[schedule] done: not present time')
     return false
