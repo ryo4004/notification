@@ -1,5 +1,6 @@
 import { createDummyTokenDBData } from './dummyTokenDBData'
-import { getActiveTokens, getTokensOnly, getActiveTokensWithTopic } from '../library'
+import { getAllTokens, getActiveTokens, getTokensOnly, getActiveTokensWithTopic } from '../library'
+import { TokenDBData } from '../../../types/token'
 
 describe('getActiveTokens', () => {
   it('statusがtrueのtokenのみ取り出せること', () => {
@@ -46,6 +47,46 @@ describe('getActiveTokensWithTopic', () => {
         }
       )
       expect(getActiveTokensWithTopic([dummyTokenDBData], 'importantSchedule')).toEqual([])
+    })
+  })
+})
+
+describe('getActiveTokensWithTopic and getTokensOnly', () => {
+  describe('getAllTokensを使う', () => {
+    it('importantSchedule', async () => {
+      // 呼び出し元のlibrary.tsからのパスを指定する
+      const tokenList = ((await getAllTokens('./__test__/dummyToken.db')) as unknown) as TokenDBData[]
+      const calculated = getTokensOnly(getActiveTokensWithTopic(tokenList, 'importantSchedule'))
+      const expected = expect.arrayContaining(['allTrue', 'importantSchedule'])
+      expect(calculated).toEqual(expected)
+    })
+    it('importantManager', async () => {
+      // 呼び出し元のlibrary.tsからのパスを指定する
+      const tokenList = ((await getAllTokens('./__test__/dummyToken.db')) as unknown) as TokenDBData[]
+      const calculated = getTokensOnly(getActiveTokensWithTopic(tokenList, 'importantManager'))
+      const expected = expect.arrayContaining(['allTrue', 'importantManager'])
+      expect(calculated).toEqual(expected)
+    })
+    it('scheduleUpdate', async () => {
+      // 呼び出し元のlibrary.tsからのパスを指定する
+      const tokenList = ((await getAllTokens('./__test__/dummyToken.db')) as unknown) as TokenDBData[]
+      const calculated = getTokensOnly(getActiveTokensWithTopic(tokenList, 'scheduleUpdate'))
+      const expected = expect.arrayContaining(['allTrue', 'scheduleUpdate'])
+      expect(calculated).toEqual(expected)
+    })
+    it('historyUpdate', async () => {
+      // 呼び出し元のlibrary.tsからのパスを指定する
+      const tokenList = ((await getAllTokens('./__test__/dummyToken.db')) as unknown) as TokenDBData[]
+      const calculated = getTokensOnly(getActiveTokensWithTopic(tokenList, 'historyUpdate'))
+      const expected = expect.arrayContaining(['allTrue', 'historyUpdate'])
+      expect(calculated).toEqual(expected)
+    })
+    it('othersUpdate', async () => {
+      // 呼び出し元のlibrary.tsからのパスを指定する
+      const tokenList = ((await getAllTokens('./__test__/dummyToken.db')) as unknown) as TokenDBData[]
+      const calculated = getTokensOnly(getActiveTokensWithTopic(tokenList, 'othersUpdate'))
+      const expected = expect.arrayContaining(['allTrue', 'othersUpdate'])
+      expect(calculated).toEqual(expected)
     })
   })
 })
