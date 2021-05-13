@@ -144,7 +144,7 @@ class Sender {
 
   async saveResult(): Promise<void> {
     const newResult = {
-      timestamp: getDateTime(new Date()),
+      timestamp: getDateTime(),
       topicKey: this.topicKey,
       title: this.title,
       body: this.body,

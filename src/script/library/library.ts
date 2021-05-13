@@ -65,7 +65,8 @@ export const getHour = (date: Date) => ('0' + date.getHours()).slice(-2)
 export const getMinute = (date: Date) => ('0' + date.getMinutes()).slice(-2)
 const getSeconds = (date: Date) => ('0' + date.getSeconds()).slice(-2)
 
-export const getDateTime = (date: Date) => {
+export const getDateTime = () => {
+  const date = new Date()
   return (
     getYear(date) +
     '-' +
