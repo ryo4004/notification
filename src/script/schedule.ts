@@ -1,7 +1,13 @@
 import fetch from 'node-fetch'
 
 import { createSenderClass } from './library/sender'
-import { getTodaySchedule, getTodayString, getPresentTimeString, validateToday } from './library/schedule'
+import {
+  getTodaySchedule,
+  getTodayString,
+  getPresentTimeString,
+  validateToday,
+  getNotificationBody,
+} from './library/schedule'
 import { getDateTime } from './library/library'
 import { TOPICS_KEYS } from '../types/token'
 
@@ -25,10 +31,9 @@ import type { ScheduleList } from '../types/schedule'
     console.log('[schedule] done: not present time')
     return false
   }
-  const startTime = scheduled.time.start
-  const { place, studio } = scheduled
+  const notificationBody = getNotificationBody(scheduled)
   const sender = await createSenderClass(TOPICS_KEYS.IMPORTANT_SCHEDULE)
-  sender.setNotification('練習のお知らせ', '今日 ' + startTime + '\n' + place + ' ' + studio)
+  sender.setNotification('練習のお知らせ', notificationBody)
   sender.setPath('/practice')
   sender.setAnalytics('notification_practice')
   await sender.send()

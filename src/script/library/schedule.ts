@@ -31,3 +31,9 @@ export const validateToday = (scheduled: EachSchedule, todayString: string, pres
   }
   return true
 }
+
+export const getNotificationBody = (scheduled: EachSchedule) => {
+  const startTime = scheduled.time.start
+  const { place, studio } = scheduled
+  return '今日 ' + startTime + '\n' + place + ' ' + studio
+}
