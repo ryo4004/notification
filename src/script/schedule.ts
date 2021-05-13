@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 
 import { createSenderClass } from './library/sender'
+import { getYear, getMonth, getDate, getHour, getMinute } from './library/library'
 import { TOPICS_KEYS } from '../types/token'
 
 import type { ScheduleList, EachSchedule } from '../types/schedule'
@@ -11,13 +12,6 @@ const getTodaySchedule = (schedule: ScheduleList): EachSchedule | false => {
   }
   return schedule.next
 }
-
-const getYear = (date: Date) => date.getFullYear()
-const getMonth = (date: Date) => ('0' + (date.getMonth() + 1)).slice(-2)
-const getDate = (date: Date) => ('0' + date.getDate()).slice(-2)
-const getHour = (date: Date) => ('0' + date.getHours()).slice(-2)
-const getMinute = (date: Date) => ('0' + date.getMinutes()).slice(-2)
-// const getSeconds = (date: Date) => ('0' + date.getSeconds()).slice(-2)
 
 const diffTodayWithSchedule = (scheduled: EachSchedule) => {
   const date = new Date()
