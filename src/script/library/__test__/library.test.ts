@@ -17,6 +17,11 @@ describe('getTokensOnly', () => {
     const dummyTokenDBData2 = createDummyTokenDBData({ token: token2 })
     expect(getTokensOnly([dummyTokenDBData1, dummyTokenDBData2])).toEqual([token1, token2])
   })
+  it('要素がひとつでも配列になる', () => {
+    const token = 'aaa'
+    const dummyTokenDBData = createDummyTokenDBData({ token })
+    expect(getTokensOnly([dummyTokenDBData])).toEqual([token])
+  })
 })
 
 describe('getActiveTokensWithTopic', () => {
