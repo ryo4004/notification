@@ -1,5 +1,5 @@
 import { createDummyEachSchedule, createDummyScheduleList } from './dummySchedule'
-import { getTodaySchedule, validateToday, getNotificationBody, getTodayString } from '../schedule'
+import { getTodaySchedule, validateToday, getNotificationBody } from '../schedule'
 
 // apiから取得するデータは今日が練習日ではない場合はnextがfalseになる
 describe('getTodaySchedule', () => {
@@ -64,6 +64,6 @@ describe('getNotificationBody', () => {
       place,
       studio,
     })
-    expect(getNotificationBody(scheduled)).toEqual('今日 ' + startTime + '\n' + place + ' ' + studio)
+    expect(getNotificationBody(scheduled)).toEqual('今日 ' + startTime + 'から\n' + place + ' ' + studio)
   })
 })

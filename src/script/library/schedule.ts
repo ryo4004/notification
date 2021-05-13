@@ -9,17 +9,17 @@ export const getTodaySchedule = (schedule: ScheduleList): EachSchedule | false =
   return schedule.next
 }
 
-export const getTodayString = () => {
+export const getTodayString = (): string => {
   const date = new Date()
   return getYear(date) + '-' + getMonth(date) + '-' + getDate(date)
 }
 
-export const getPresentTimeString = () => {
+export const getPresentTimeString = (): string => {
   const date = new Date()
   return getHour(date) + ':' + getMinute(date)
 }
 
-export const validateToday = (scheduled: EachSchedule, todayString: string, presentTimeString: string) => {
+export const validateToday = (scheduled: EachSchedule, todayString: string, presentTimeString: string): boolean => {
   // 日付の比較
   if (scheduled.date !== todayString) {
     return false
@@ -32,8 +32,8 @@ export const validateToday = (scheduled: EachSchedule, todayString: string, pres
   return true
 }
 
-export const getNotificationBody = (scheduled: EachSchedule) => {
+export const getNotificationBody = (scheduled: EachSchedule): string => {
   const startTime = scheduled.time.start
   const { place, studio } = scheduled
-  return '今日 ' + startTime + '\n' + place + ' ' + studio
+  return '今日 ' + startTime + 'から\n' + place + ' ' + studio
 }

@@ -1,3 +1,5 @@
+import admin from 'firebase-admin'
+
 export type Topics = {
   importantSchedule: boolean // 練習開始時刻に通知
   importantManager: boolean // 事務局からのお知らせを更新したら通知
@@ -32,4 +34,18 @@ export type StatusReturnType = {
   status: boolean
   token: string
   topics: Topics | null
+}
+
+export type SentData = {
+  topicKey: TopicsKeys
+  title: string
+  body: string
+  path: string
+  tokens: Array<string>
+  analytics: string
+  result: {
+    sendResult: admin.messaging.BatchResponse | null
+    sendError: unknown
+    error: string | null
+  }
 }

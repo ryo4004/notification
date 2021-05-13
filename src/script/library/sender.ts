@@ -24,7 +24,7 @@ class Sender {
   tokens: Array<string>
   analytics: string
   sendResult: admin.messaging.BatchResponse | null
-  sendError: any
+  sendError: unknown
   error: string | null
 
   constructor(topicKey: TopicsKeys) {
