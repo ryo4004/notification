@@ -7,5 +7,6 @@ import { TOPICS_KEYS } from '../types/token'
   sender.setNotification('テスト', 'おためし')
   sender.setPath('/practice')
   sender.setAnalytics('notification_practice')
-  sender.send()
+  const result = await sender.send()
+  console.log({ result })
 })()

@@ -16,6 +16,9 @@ class Sender {
   path: string
   tokens: Array<string>
   analytics: string
+  sendResult: admin.messaging.BatchResponse | null
+  sendError: any
+  error: string | null
 
   constructor(topicKey: TopicsKeys) {
     admin.initializeApp({
@@ -27,11 +30,15 @@ class Sender {
     this.path = ''
     this.tokens = []
     this.analytics = 'notification_winds'
+    this.sendResult = null
+    this.sendError = null
+    this.error = null
   }
 
   async init(): Promise<void | false> {
     const allTokens = await getAllTokens()
     if (!allTokens || allTokens.length === 0) {
+      this.error = 'no_tokens'
       return false
     }
     const activeTokens = getActiveTokens(allTokens)
@@ -60,58 +67,71 @@ class Sender {
   check(): boolean {
     if (this.title === '' || this.body === '') {
       console.log('no title or body')
+      this.error = 'no_title_or_body'
       return false
     }
     if (this.tokens.length === 0) {
       console.log('no send target')
+      this.error = 'no_send_target'
       return false
     }
     return true
   }
 
-  send(): void | false {
-    const available = this.check()
-    if (!available) {
-      return false
-    }
-    const message = {
-      notification: {
-        title: this.title,
-        body: this.body,
-      },
-      data: {
-        path: this.path,
-      },
-      apns: {
-        payload: {
-          aps: {
+  async send(): Promise<false | admin.messaging.BatchResponse> {
+    return new Promise((resolve) => {
+      const available = this.check()
+      if (!available) {
+        this.error = 'not_available'
+        return resolve(false)
+      }
+      if (this.error) {
+        console.log('error')
+        return resolve(false)
+      }
+      const message = {
+        notification: {
+          title: this.title,
+          body: this.body,
+        },
+        data: {
+          path: this.path,
+        },
+        apns: {
+          payload: {
+            aps: {
+              sound: 'default',
+            },
+          },
+          fcm_options: {
+            image: 'https://winds-n.com/image/social/square.png',
+          },
+        },
+        android: {
+          notification: {
             sound: 'default',
+            color: '#b60005',
+            priority: 'high' as const,
           },
         },
         fcm_options: {
-          image: 'https://winds-n.com/image/social/square.png',
+          analytics_label: this.analytics,
         },
-      },
-      android: {
-        notification: {
-          sound: 'default',
-          color: '#b60005',
-          priority: 'high' as const,
-        },
-      },
-      fcm_options: {
-        analytics_label: this.analytics,
-      },
-      tokens: this.tokens,
-    }
-    admin
-      .messaging()
-      .sendMulticast(message)
-      .then((response) => {
-        console.log(response.successCount + ' messages were sent successfully')
-      })
-      .catch((error) => {
-        console.log('Error sending message:', error)
-      })
+        tokens: this.tokens,
+      }
+      admin
+        .messaging()
+        .sendMulticast(message)
+        .then((response) => {
+          console.log(response.successCount + ' messages were sent successfully')
+          this.sendResult = response
+          resolve(response)
+        })
+        .catch((error) => {
+          console.log('Error sending message:', error)
+          this.sendError = error
+          resolve(error)
+        })
+    })
   }
 }
