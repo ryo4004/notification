@@ -64,4 +64,8 @@ app.post('/update_topic', async (req, res) => {
   return res.json({ status: true, updated: topicResult.result })
 })
 
+const client = './client/build'
+app.use('/manager', express.static(client))
+app.use('/manager/static', express.static(client))
+
 app.listen(3011)

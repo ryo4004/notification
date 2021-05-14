@@ -28,10 +28,7 @@ export const getActiveTokensWithTopic = (tokens: TokenDBData[], key: TopicsKeys)
   return tokens.filter((t) => t.topics[key] === true)
 }
 
-export const saveSent = (
-  newData: SentData,
-  databasePath = '../../../database/sent.db'
-): Promise<true | null> => {
+export const saveSent = (newData: SentData, databasePath = '../../../database/sent.db'): Promise<true | null> => {
   const sentDB = new NeDB({
     filename: path.join(__dirname, databasePath),
     autoload: true,
