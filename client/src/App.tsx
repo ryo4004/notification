@@ -1,26 +1,19 @@
-import { useState } from 'react'
+import { Pages } from './Pages/Pages'
+
+import { useAuthentication, AuthenticationContext } from './hooks/useAuthentication'
 
 import './App.scss'
+import React from 'react'
 
-function App() {
-  const [pass, setPass] = useState<string>('')
-  const send = async () => {
-    const response = await fetch('/manager/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ pass }),
-    })
-    const json = await response.json()
-    console.log({ json })
-  }
+export const App = () => {
   return (
-    <div>
-      <input type="password" value={pass} onChange={(e) => setPass(e.target.value)} />
-      <button onClick={() => send()}>送信</button>
-    </div>
+    <AuthenticationProvider>
+      <Pages />
+    </AuthenticationProvider>
   )
 }
 
-export default App
+const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => {
+  const authenticationState = useAuthentication()
+  return <AuthenticationContext.Provider value={authenticationState}>{children}</AuthenticationContext.Provider>
+}
