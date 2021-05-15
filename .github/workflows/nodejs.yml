@@ -16,6 +16,8 @@ jobs:
       run: |
         mkdir ./src/script/library/firebase
         echo "export default {} as unknown" > ./src/script/library/firebase/config.ts
+        mkdir ./src/library/secrets
+        echo "export const hash = ''" > ./src/library/secrets/secrets.ts
     - name: yarn install
       run: yarn install
     - name: yarn test

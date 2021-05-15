@@ -1,5 +1,7 @@
 import express from 'express'
-import { auth } from './library/auth'
+import { auth, getHash } from './library/auth'
+import { hash } from './library/secrets/secrets'
+
 import * as lib from './library/library'
 import * as libToken from './library/token'
 
@@ -67,5 +69,16 @@ app.post('/update_topic', async (req, res) => {
 const client = './client/build'
 app.use('/manager', express.static(client))
 app.use('/manager/static', express.static(client))
+
+const clientPrefix = '/manager'
+app.post(clientPrefix + '/login', (req, res) => {
+  const { pass } = req.body
+  if (hash === getHash(pass)) {
+    console.log('login', { pass })
+    return res.json({ status: true })
+  } else {
+    return res.json({ status: false })
+  }
+})
 
 app.listen(3011)
