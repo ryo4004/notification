@@ -1,0 +1,38 @@
+import path from 'path'
+import NeDB from 'nedb'
+
+import { createSenderClass } from '../library/sender'
+
+import type { TopicsKeys } from '../types/token'
+
+export type NotificationRequest = {
+  title: string
+  body: string
+  path: string
+  topic: TopicsKeys
+  immediately: boolean
+}
+
+export const sendNotification = async (notification: NotificationRequest): Promise<true> => {
+  const sender = await createSenderClass(notification.topic)
+  sender.setNotification(notification.title, notification.body)
+  sender.setPath(notification.path)
+  sender.setAnalytics('notification')
+  await sender.send()
+  await sender.saveResult()
+  return true
+}
+
+const reservationDB = new NeDB({
+  filename: path.join(__dirname, '../../database/reservation.db'),
+  autoload: true,
+})
+
+export const insert = (newData: NotificationRequest): Promise<true | null> => {
+  return new Promise((resolve) => {
+    reservationDB.insert(newData, (error) => {
+      if (error) return resolve(null)
+      resolve(true)
+    })
+  })
+}

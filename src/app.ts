@@ -73,6 +73,7 @@ app.use('/manager/static', express.static(client))
 const clientPrefix = '/manager'
 
 app.post(clientPrefix + '/login', (req, res) => {
+  console.log('[' + lib.showTime() + '] /manager/login')
   const { pass } = req.body
   if (hash === getHash(pass)) {
     return res.json({ status: true })
@@ -84,6 +85,7 @@ app.post(clientPrefix + '/login', (req, res) => {
 import { getAll } from './library/sent'
 
 app.post(clientPrefix + '/sent', async (req, res) => {
+  console.log('[' + lib.showTime() + '] /manager/sent')
   const { pass } = req.body
   if (hash === getHash(pass)) {
     const data = await getAll()
@@ -94,11 +96,22 @@ app.post(clientPrefix + '/sent', async (req, res) => {
   }
 })
 
+import { sendNotification, insert } from './library/send'
+import type { NotificationRequest } from './library/send'
+
 app.post(clientPrefix + '/request', async (req, res) => {
-  const { pass, notification } = req.body
+  console.log('[' + lib.showTime() + '] /manager/request')
+  const { pass, notification }: { pass: string; notification: NotificationRequest } = req.body
   if (hash === getHash(pass)) {
-    console.log({ notification })
-    return res.json({ status: true, result: true })
+    if (notification.immediately) {
+      console.log('[' + lib.showTime() + '] /manager/request: immediately')
+      await sendNotification(notification)
+      return res.json({ status: true, result: 'sent' })
+    } else {
+      console.log('[' + lib.showTime() + '] /manager/request: reservation')
+      await insert(notification)
+      return res.json({ status: true, result: 'reservated' })
+    }
   } else {
     return res.json({ status: false })
   }
