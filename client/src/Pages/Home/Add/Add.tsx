@@ -24,9 +24,14 @@ export const Add = () => {
           <label>パス</label>
           <input value={state.notification.path} onChange={(e) => updateAdd('path', e.target.value)} />
           <select value={state.notification.topic} onChange={(e) => updateTopic(e.target.value as TopicsKeys)}>
-            {(Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).map((t) => (
-              <option value={TOPICS_KEYS[t]}>{TOPICS_LABEL[t]}</option>
-            ))}
+            {(Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).map((t) => {
+              const disabled = TOPICS_KEYS[t] === TOPICS_KEYS.IMPORTANT_SCHEDULE
+              return (
+                <option value={TOPICS_KEYS[t]} disabled={disabled}>
+                  {TOPICS_LABEL[t]}
+                </option>
+              )
+            })}
           </select>
           <div>
             <input
