@@ -94,4 +94,14 @@ app.post(clientPrefix + '/sent', async (req, res) => {
   }
 })
 
+app.post(clientPrefix + '/request', async (req, res) => {
+  const { pass, notification } = req.body
+  if (hash === getHash(pass)) {
+    console.log({ notification })
+    return res.json({ status: true, result: true })
+  } else {
+    return res.json({ status: false })
+  }
+})
+
 app.listen(3011)
