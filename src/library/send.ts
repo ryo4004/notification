@@ -13,6 +13,10 @@ export type NotificationRequest = {
   immediately: boolean
 }
 
+type NotificationRequestDBData = NotificationRequest & {
+  _id: string
+}
+
 export const sendNotification = async (notification: NotificationRequest): Promise<true> => {
   const sender = await createSenderClass(notification.topic)
   sender.setNotification(notification.title, notification.body)
@@ -33,6 +37,23 @@ export const insert = (newData: NotificationRequest): Promise<true | null> => {
     reservationDB.insert(newData, (error) => {
       if (error) return resolve(null)
       resolve(true)
+    })
+  })
+}
+
+export const getAll = (): Promise<Array<NotificationRequestDBData> | null> => {
+  return new Promise((resolve) => {
+    reservationDB.find({}, (error: unknown, docs: Array<NotificationRequestDBData>) => {
+      if (error) return resolve(null)
+      resolve(docs)
+    })
+  })
+}
+
+export const remove = (): Promise<number> => {
+  return new Promise((resolve) => {
+    reservationDB.remove({}, { multi: true }, (error, num: number) => {
+      resolve(num)
     })
   })
 }

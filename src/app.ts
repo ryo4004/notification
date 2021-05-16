@@ -82,15 +82,17 @@ app.post(clientPrefix + '/login', (req, res) => {
   }
 })
 
-import { getAll } from './library/sent'
+import { getAll as getAllSent } from './library/sent'
+import { getAll as getAllReservation } from './library/send'
 
-app.post(clientPrefix + '/sent', async (req, res) => {
-  console.log('[' + lib.showTime() + '] /manager/sent')
+app.post(clientPrefix + '/status', async (req, res) => {
+  console.log('[' + lib.showTime() + '] /manager/status')
   const { pass } = req.body
   if (hash === getHash(pass)) {
-    const data = await getAll()
-    if (!data) return res.json({ status: true, data: [] })
-    return res.json({ status: true, data })
+    const sent = await getAllSent()
+    const reserved = await getAllReservation()
+    if (!sent || !reserved) return res.json({ status: true, data: [] })
+    return res.json({ status: true, data: { sent, reserved } })
   } else {
     return res.json({ status: false })
   }

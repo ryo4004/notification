@@ -28,6 +28,18 @@ export const TOPICS_LABEL = {
   OTHERS_UPDATE: 'その他の更新を通知',
 }
 
+type NotificationRequest = {
+  title: string
+  body: string
+  path: string
+  topic: TopicsKeys
+  immediately: boolean
+}
+
+export type NotificationRequestDBData = NotificationRequest & {
+  _id: string
+}
+
 type SentData = {
   timestamp: string
   topicKey: TopicsKeys
