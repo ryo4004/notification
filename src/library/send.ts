@@ -54,9 +54,19 @@ export const getAll = (): Promise<Array<NotificationRequestDBData> | null> => {
   })
 }
 
-export const remove = (): Promise<number> => {
+export const requestRemove = (id: string): Promise<number | null> => {
+  return new Promise((resolve) => {
+    reservationDB.remove({ _id: id }, {}, (error, num: number) => {
+      if (error) return resolve(null)
+      resolve(num)
+    })
+  })
+}
+
+export const removeAll = (): Promise<number | null> => {
   return new Promise((resolve) => {
     reservationDB.remove({}, { multi: true }, (error, num: number) => {
+      if (error) return resolve(null)
       resolve(num)
     })
   })

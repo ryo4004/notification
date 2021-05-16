@@ -98,7 +98,7 @@ app.post(clientPrefix + '/status', async (req, res) => {
   }
 })
 
-import { sendNotification, insert } from './library/send'
+import { sendNotification, insert, requestRemove } from './library/send'
 import type { NotificationRequest } from './library/send'
 
 app.post(clientPrefix + '/request', async (req, res) => {
@@ -114,6 +114,18 @@ app.post(clientPrefix + '/request', async (req, res) => {
       await insert(notification)
       return res.json({ status: true, result: 'reservated' })
     }
+  } else {
+    return res.json({ status: false })
+  }
+})
+
+app.post(clientPrefix + '/remove', async (req, res) => {
+  console.log('[' + lib.showTime() + '] /manager/remove')
+  const { pass, id }: { pass: string; id: string } = req.body
+  if (hash === getHash(pass)) {
+    await requestRemove(id)
+    const reserved = await getAllReservation()
+    return res.json({ status: true, data: { reserved } })
   } else {
     return res.json({ status: false })
   }

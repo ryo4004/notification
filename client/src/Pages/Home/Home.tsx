@@ -6,7 +6,7 @@ import './Home.scss'
 
 export const Home = () => {
   const { requestLogout } = useAuthenticationContext()
-  const { loading, fetched, content } = useStatusContext()
+  const { loading, fetched, content, requestRemove } = useStatusContext()
   return (
     <div className="home">
       <h2>通知管理ページ</h2>
@@ -27,6 +27,7 @@ export const Home = () => {
                     <div>{b}</div>
                   ))}
                 </div>
+                <button onClick={() => requestRemove(n._id)}>削除</button>
               </div>
             )
           })}

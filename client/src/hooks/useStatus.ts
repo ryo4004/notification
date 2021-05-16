@@ -14,6 +14,7 @@ type UseStatusState = {
 
 type StatusType = UseStatusState & {
   getStatus: () => void
+  requestRemove: (id: string) => void
 }
 
 export const StatusContext = createContext<StatusType>({
@@ -21,6 +22,7 @@ export const StatusContext = createContext<StatusType>({
   fetched: false,
   content: { reserved: [], sent: [] },
   getStatus: noop,
+  requestRemove: noop,
 })
 
 export const useStatusContext = () => {
@@ -50,10 +52,34 @@ export const useStatus = (pass: string) => {
       setState((state) => ({ ...state, loading: false, fetched: true, content: { reserved: [], sent: [] } }))
     }
   }, [pass])
+  const requestRemove = useCallback(
+    async (id: string) => {
+      setState((state) => ({ ...state, loading: true }))
+      const response = await fetch('/manager/remove', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pass, id }),
+      })
+      const json = await response.json()
+      if (json.status) {
+        setState((state) => ({
+          ...state,
+          loading: false,
+          fetched: true,
+          content: { ...state.content, reserved: json.data.reserved },
+        }))
+      } else {
+        setState((state) => ({ ...state, loading: false, fetched: true }))
+      }
+    },
+    [pass]
+  )
   useEffect(() => {
     ;(async () => {
       await getStatus()
     })()
   }, [getStatus])
-  return { ...state, getStatus }
+  return { ...state, getStatus, requestRemove }
 }
