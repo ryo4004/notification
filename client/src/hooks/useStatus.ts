@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useContext, createContext } from 'react'
+import { noop } from '../library/noop'
 
-import type { NotificationRequestDBData, SentDBData } from '../../../types/notification'
+import type { NotificationRequestDBData, SentDBData } from '../types/notification'
 
-type UseSentNotificationState = {
+type UseStatusState = {
   loading: boolean
   fetched: boolean
   content: {
@@ -11,8 +12,23 @@ type UseSentNotificationState = {
   }
 }
 
+type StatusType = UseStatusState & {
+  getStatus: () => void
+}
+
+export const StatusContext = createContext<StatusType>({
+  loading: false,
+  fetched: false,
+  content: { reserved: [], sent: [] },
+  getStatus: noop,
+})
+
+export const useStatusContext = () => {
+  return useContext(StatusContext)
+}
+
 export const useStatus = (pass: string) => {
-  const [state, setState] = useState<UseSentNotificationState>({
+  const [state, setState] = useState<UseStatusState>({
     loading: false,
     fetched: false,
     content: { reserved: [], sent: [] },
@@ -39,5 +55,5 @@ export const useStatus = (pass: string) => {
       await getStatus()
     })()
   }, [getStatus])
-  return { ...state }
+  return { ...state, getStatus }
 }

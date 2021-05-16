@@ -1,12 +1,12 @@
 import { Add } from './Add/Add'
 import { useAuthenticationContext } from '../../hooks/useAuthentication'
-import { useStatus } from './hooks/useStatus'
+import { useStatusContext } from '../../hooks/useStatus'
 
 import './Home.scss'
 
 export const Home = () => {
   const { pass, requestLogout } = useAuthenticationContext()
-  const { loading, fetched, content } = useStatus(pass)
+  const { loading, fetched, content } = useStatusContext()
   return (
     <div className="home">
       <h2>通知管理ページ</h2>

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { TOPICS_KEYS } from '../../../../types/notification'
 
+import { useStatusContext } from '../../../../hooks/useStatus'
+
 import type { TopicsKeys } from '../../../../types/notification'
 
 type AddNotification = {
@@ -30,6 +32,7 @@ const initState = {
 }
 
 export const useAdd = (pass: string) => {
+  const { getStatus } = useStatusContext()
   const [state, setState] = useState<AddStateType>(initState)
   const updateAdd = (key: keyof AddNotification, value: string) => {
     setState({
@@ -70,6 +73,7 @@ export const useAdd = (pass: string) => {
       body: JSON.stringify({ pass, notification }),
     })
     const json = await response.json()
+    getStatus()
     setState({ ...state, loading: false, result: json.result })
   }
   return { state, updateAdd, updateTopic, updateCheckbox, requestSend }
