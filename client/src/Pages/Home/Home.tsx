@@ -1,3 +1,4 @@
+import { Add } from './Add/Add'
 import { useAuthenticationContext } from '../../hooks/useAuthentication'
 import { useSentNotification } from './hooks/useSentNotification'
 
@@ -8,6 +9,7 @@ export const Home = () => {
     <>
       <h2>通知管理ページ</h2>
       <button onClick={() => requestLogout()}>ログアウト</button>
+      <Add />
       <div>
         {loading && '読み込み中'}
         {!loading &&

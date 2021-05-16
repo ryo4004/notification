@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import type { SentDBData}from "../../../types/notification"
+import type { SentDBData } from '../../../types/notification'
 
 type UseSentNotificationState = {
   loading: boolean
