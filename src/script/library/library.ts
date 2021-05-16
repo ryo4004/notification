@@ -3,14 +3,17 @@ import NeDB from 'nedb'
 
 import { TokenDBData, TopicsKeys, SentData } from '../../types/token'
 
-export const getAllTokens = (databasePath = '../../../database/token.db'): Promise<TokenDBData[] | null> => {
-  const tokenDB = new NeDB({
+const getTokenDB = (databasePath: string) => {
+  return new NeDB({
     filename: path.join(__dirname, databasePath),
     autoload: true,
     timestampData: true,
   })
+}
+
+export const getAllTokens = (databasePath = '../../../database/token.db'): Promise<TokenDBData[] | null> => {
   return new Promise((resolve) => {
-    tokenDB.find({ status: true }, (error: unknown, docs: TokenDBData[] | null) => {
+    getTokenDB(databasePath).find({ status: true }, (error: unknown, docs: TokenDBData[] | null) => {
       if (error) return resolve(null)
       resolve(docs)
     })
