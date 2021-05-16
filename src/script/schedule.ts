@@ -38,5 +38,5 @@ import type { ScheduleList } from '../types/schedule'
   sender.setAnalytics('notification_practice')
   await sender.send()
   await sender.saveResult()
-  console.log('[schedule] done: sent' + getDateTime())
+  console.log('[schedule] done: sent, ' + getDateTime())
 })()
