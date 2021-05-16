@@ -1,0 +1,14 @@
+.add {
+  label {
+    display: block;
+  }
+  input {
+    display: block;
+  }
+  input[type='checkbox'] {
+    display: inline;
+    & + label {
+      display: inline;
+    }
+  }
+}

@@ -10,7 +10,7 @@
     "build": "tsc",
     "lint": "eslint ./src --config .eslintrc.json",
     "typecheck": "tsc --noEmit",
-    "preprettier": "prettier --write 'client/src/**/*.{js,jsx,ts,tsx,json,md}'",
+    "preprettier": "prettier --write 'client/src/**/*.{js,jsx,ts,tsx,json,scss,md}'",
     "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,md}'"
   },
   "repository": {

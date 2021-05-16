@@ -5,6 +5,8 @@ import { TOPICS_KEYS, TOPICS_LABEL } from '../../../types/notification'
 
 import type { TopicsKeysKey, TopicsKeys } from '../../../types/notification'
 
+import './Add.scss'
+
 export const Add = () => {
   const { pass } = useAuthenticationContext()
   const { state, updateAdd, updateTopic, updateCheckbox } = useAdd(pass)
