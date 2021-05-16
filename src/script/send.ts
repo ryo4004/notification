@@ -1,4 +1,4 @@
-import { createSenderClass } from './library/sender'
+import { createSenderClass } from '../library/sender'
 import { TOPICS_KEYS } from '../types/token'
 
 // 通知を作成して送信する

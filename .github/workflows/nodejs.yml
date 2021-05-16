@@ -14,9 +14,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Prepare secrets
       run: |
-        mkdir ./src/script/library/firebase
-        echo "export default {} as unknown" > ./src/script/library/firebase/config.ts
         mkdir ./src/library/secrets
+        echo "export default {} as unknown" > ./src/library/secrets/firebase.ts
         echo "export const hash = ''" > ./src/library/secrets/secrets.ts
         echo "export const salt = ''" >> ./src/library/secrets/secrets.ts
     - name: yarn install

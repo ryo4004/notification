@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 
-import { createSenderClass } from './library/sender'
+import { createSenderClass } from '../library/sender'
 import {
   getTodaySchedule,
   getTodayString,

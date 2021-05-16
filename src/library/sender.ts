@@ -1,5 +1,5 @@
 import admin from 'firebase-admin'
-import firebaseConfig from './firebase/config'
+import firebaseConfig from './secrets/firebase'
 import {
   getAllTokens,
   getActiveTokens,
@@ -7,8 +7,8 @@ import {
   getTokensOnly,
   saveSent,
   getDateTime,
-} from './library'
-import type { TopicsKeys } from '../../types/token'
+} from '../script/library/library'
+import type { TopicsKeys } from '../types/token'
 
 export const createSenderClass = async (topicKey: TopicsKeys): Promise<Sender> => {
   const sender = new Sender(topicKey)
