@@ -16,6 +16,14 @@ export const TOPICS_KEYS = {
   OTHERS_UPDATE: 'othersUpdate',
 } as const
 
+export const TOPICS_ANALYTICS_KEYS = {
+  importantSchedule: 'notification_important_schedule',
+  importantManager: 'notification_important_manager',
+  scheduleUpdate: 'notification_schedule_update',
+  historyUpdate: 'notification_history_update',
+  othersUpdate: 'notification_others_update',
+} as const
+
 export type TopicsKeys = keyof Topics
 
 export type TokenData = {

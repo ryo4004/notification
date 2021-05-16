@@ -35,7 +35,6 @@ import type { ScheduleList } from '../types/schedule'
   const sender = await createSenderClass(TOPICS_KEYS.IMPORTANT_SCHEDULE)
   sender.setNotification('練習のお知らせ', notificationBody)
   sender.setPath('/practice')
-  sender.setAnalytics('notification_practice')
   await sender.send()
   await sender.saveResult()
   console.log('[schedule] done: sent, ' + getDateTime())
