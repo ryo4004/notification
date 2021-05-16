@@ -5,7 +5,7 @@ import { useStatusContext } from '../../hooks/useStatus'
 import './Home.scss'
 
 export const Home = () => {
-  const { pass, requestLogout } = useAuthenticationContext()
+  const { requestLogout } = useAuthenticationContext()
   const { loading, fetched, content } = useStatusContext()
   return (
     <div className="home">

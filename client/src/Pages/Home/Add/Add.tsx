@@ -20,7 +20,7 @@ export const Add = () => {
           <label>タイトル</label>
           <input value={state.notification.title} onChange={(e) => updateAdd('title', e.target.value)} />
           <label>本文</label>
-          <input value={state.notification.body} onChange={(e) => updateAdd('body', e.target.value)} />
+          <textarea value={state.notification.body} onChange={(e) => updateAdd('body', e.target.value)} />
           <label>パス</label>
           <input value={state.notification.path} onChange={(e) => updateAdd('path', e.target.value)} />
           <select value={state.notification.topic} onChange={(e) => updateTopic(e.target.value as TopicsKeys)}>
