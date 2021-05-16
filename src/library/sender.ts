@@ -8,6 +8,8 @@ import {
   saveSent,
   getDateTime,
 } from '../script/library/library'
+import { TOPICS_ANALYTICS_KEYS } from '../types/token'
+
 import type { TopicsKeys } from '../types/token'
 
 admin.initializeApp({
@@ -37,7 +39,7 @@ class Sender {
     this.body = ''
     this.path = ''
     this.tokens = []
-    this.analytics = 'notification_winds'
+    this.analytics = TOPICS_ANALYTICS_KEYS[topicKey]
     this.sendResult = null
     this.sendError = null
     this.error = null

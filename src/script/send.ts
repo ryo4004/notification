@@ -18,7 +18,6 @@ import { getDateTime } from './library/library'
       const sender = await createSenderClass(notification.topic)
       sender.setNotification(notification.title, notification.body)
       sender.setPath(notification.path)
-      // sender.setAnalytics(notification.analytics)
       await sender.send()
       await sender.saveResult()
       console.log('[send] done: ' + (i + 1) + ' / ' + reserved.length + ' sent: ' + getDateTime())
