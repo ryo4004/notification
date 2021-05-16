@@ -9,3 +9,6 @@
 
 # firebase config
 /src/script/library/firebase/*
+
+# secrets
+/src/library/secrets/*

@@ -1,5 +1,5 @@
 import admin from 'firebase-admin'
-import firebaseConfig from './firebase/config'
+import firebaseConfig from './secrets/firebase'
 import {
   getAllTokens,
   getActiveTokens,
@@ -7,8 +7,12 @@ import {
   getTokensOnly,
   saveSent,
   getDateTime,
-} from './library'
-import type { TopicsKeys } from '../../types/token'
+} from '../script/library/library'
+import type { TopicsKeys } from '../types/token'
+
+admin.initializeApp({
+  credential: admin.credential.cert(JSON.parse(JSON.stringify(firebaseConfig))),
+})
 
 export const createSenderClass = async (topicKey: TopicsKeys): Promise<Sender> => {
   const sender = new Sender(topicKey)
@@ -28,9 +32,6 @@ class Sender {
   error: string | null
 
   constructor(topicKey: TopicsKeys) {
-    admin.initializeApp({
-      credential: admin.credential.cert(JSON.parse(JSON.stringify(firebaseConfig))),
-    })
     this.topicKey = topicKey
     this.title = ''
     this.body = ''

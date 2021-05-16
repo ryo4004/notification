@@ -1,4 +1,4 @@
-import { noop } from './utilities/noop'
+import { noop } from './library/noop'
 
 it('サンプルテスト', () => {
   noop()

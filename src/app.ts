@@ -1,5 +1,7 @@
 import express from 'express'
-import { auth } from './library/auth'
+import { auth, getHash } from './library/auth'
+import { hash } from './library/secrets/secrets'
+
 import * as lib from './library/library'
 import * as libToken from './library/token'
 
@@ -67,5 +69,66 @@ app.post('/update_topic', async (req, res) => {
 const client = './client/build'
 app.use('/manager', express.static(client))
 app.use('/manager/static', express.static(client))
+
+const clientPrefix = '/manager'
+
+app.post(clientPrefix + '/login', (req, res) => {
+  console.log('[' + lib.showTime() + '] /manager/login')
+  const { pass } = req.body
+  if (hash === getHash(pass)) {
+    return res.json({ status: true })
+  } else {
+    return res.json({ status: false })
+  }
+})
+
+import { getAll as getAllSent } from './library/sent'
+import { getAll as getAllReservation } from './library/send'
+
+app.post(clientPrefix + '/status', async (req, res) => {
+  console.log('[' + lib.showTime() + '] /manager/status')
+  const { pass } = req.body
+  if (hash === getHash(pass)) {
+    const sent = await getAllSent()
+    const reserved = await getAllReservation()
+    if (!sent || !reserved) return res.json({ status: true, data: [] })
+    return res.json({ status: true, data: { sent, reserved } })
+  } else {
+    return res.json({ status: false })
+  }
+})
+
+import { sendNotification, insert, requestRemove } from './library/send'
+import type { NotificationRequest } from './library/send'
+
+app.post(clientPrefix + '/request', async (req, res) => {
+  console.log('[' + lib.showTime() + '] /manager/request')
+  const { pass, notification }: { pass: string; notification: NotificationRequest } = req.body
+  if (hash === getHash(pass)) {
+    if (notification.immediately) {
+      console.log('[' + lib.showTime() + '] /manager/request: immediately')
+      await sendNotification(notification)
+      return res.json({ status: true, result: 'sent' })
+    } else {
+      console.log('[' + lib.showTime() + '] /manager/request: reservation')
+      await insert(notification)
+      return res.json({ status: true, result: 'reservated' })
+    }
+  } else {
+    return res.json({ status: false })
+  }
+})
+
+app.post(clientPrefix + '/remove', async (req, res) => {
+  console.log('[' + lib.showTime() + '] /manager/remove')
+  const { pass, id }: { pass: string; id: string } = req.body
+  if (hash === getHash(pass)) {
+    await requestRemove(id)
+    const reserved = await getAllReservation()
+    return res.json({ status: true, data: { reserved } })
+  } else {
+    return res.json({ status: false })
+  }
+})
 
 app.listen(3011)

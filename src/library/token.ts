@@ -6,6 +6,7 @@ import type { Topics, TopicsKeys, TokenData, TokenDBData, StatusReturnType } fro
 const tokenDB = new NeDB({
   filename: path.join(__dirname, '../../database/token.db'),
   autoload: true,
+  timestampData: true,
 })
 
 const defaultTopics: Topics = {

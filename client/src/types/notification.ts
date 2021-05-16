@@ -1,12 +1,12 @@
-import admin from 'firebase-admin'
-
-export type Topics = {
+type Topics = {
   importantSchedule: boolean // 練習開始時刻に通知
   importantManager: boolean // 事務局からのお知らせを更新したら通知
   scheduleUpdate: boolean // 練習日程を更新したら通知
   historyUpdate: boolean // 練習の記録を更新したら通知
   othersUpdate: boolean // その他の更新をしたら通知
 }
+
+export type TopicsKeys = keyof Topics
 
 export const TOPICS_KEYS = {
   IMPORTANT_SCHEDULE: 'importantSchedule',
@@ -16,27 +16,31 @@ export const TOPICS_KEYS = {
   OTHERS_UPDATE: 'othersUpdate',
 } as const
 
-export type TopicsKeys = keyof Topics
+type TopicsKeysType = typeof TOPICS_KEYS
 
-export type TokenData = {
-  token: string // 一意
-  status: boolean // プッシュ通知の有効/無効
-  id: string // 重複あり
-  useragent: string
-  topics: Topics
+export type TopicsKeysKey = keyof TopicsKeysType
+
+export const TOPICS_LABEL = {
+  IMPORTANT_SCHEDULE: '重要: 練習開始を通知',
+  IMPORTANT_MANAGER: '重要: 事務局からのお知らせを通知',
+  SCHEDULE_UPDATE: '練習日程の更新を通知',
+  HISTORY_UPDATE: '練習の記録の更新を通知',
+  OTHERS_UPDATE: 'その他の更新を通知',
 }
 
-export type TokenDBData = TokenData & {
+type NotificationRequest = {
+  title: string
+  body: string
+  path: string
+  topic: TopicsKeys
+  immediately: boolean
+}
+
+export type NotificationRequestDBData = NotificationRequest & {
   _id: string
 }
 
-export type StatusReturnType = {
-  status: boolean
-  token: string
-  topics: Topics | null
-}
-
-export type SentData = {
+type SentData = {
   timestamp: string
   topicKey: TopicsKeys
   title: string
@@ -45,7 +49,7 @@ export type SentData = {
   tokens: Array<string>
   analytics: string
   result: {
-    sendResult: admin.messaging.BatchResponse | null
+    sendResult: unknown | null
     sendError: unknown
     error: string | null
   }

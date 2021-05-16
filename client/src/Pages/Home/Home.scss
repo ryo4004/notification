@@ -1,0 +1,14 @@
+.home {
+  padding: 8px;
+
+  .notification {
+    background: #eee;
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
+
+    .title {
+      font-weight: bold;
+    }
+  }
+}
