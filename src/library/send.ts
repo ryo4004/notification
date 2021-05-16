@@ -30,6 +30,7 @@ export const sendNotification = async (notification: NotificationRequest): Promi
 const reservationDB = new NeDB({
   filename: path.join(__dirname, '../../database/reservation.db'),
   autoload: true,
+  timestampData: true,
 })
 
 export const insert = (newData: NotificationRequest): Promise<true | null> => {
@@ -43,10 +44,13 @@ export const insert = (newData: NotificationRequest): Promise<true | null> => {
 
 export const getAll = (): Promise<Array<NotificationRequestDBData> | null> => {
   return new Promise((resolve) => {
-    reservationDB.find({}, (error: unknown, docs: Array<NotificationRequestDBData>) => {
-      if (error) return resolve(null)
-      resolve(docs)
-    })
+    reservationDB
+      .find({})
+      .sort({ createdAt: -1 })
+      .exec((error: unknown, docs: Array<NotificationRequestDBData>) => {
+        if (error) return resolve(null)
+        resolve(docs)
+      })
   })
 }
 

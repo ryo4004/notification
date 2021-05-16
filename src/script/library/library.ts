@@ -7,6 +7,7 @@ export const getAllTokens = (databasePath = '../../../database/token.db'): Promi
   const tokenDB = new NeDB({
     filename: path.join(__dirname, databasePath),
     autoload: true,
+    timestampData: true,
   })
   return new Promise((resolve) => {
     tokenDB.find({ status: true }, (error: unknown, docs: TokenDBData[] | null) => {
@@ -32,6 +33,7 @@ export const saveSent = (newData: SentData, databasePath = '../../../database/se
   const sentDB = new NeDB({
     filename: path.join(__dirname, databasePath),
     autoload: true,
+    timestampData: true,
   })
   return new Promise((resolve) => {
     sentDB.insert(newData, (error) => {
