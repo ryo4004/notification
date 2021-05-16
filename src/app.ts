@@ -71,11 +71,24 @@ app.use('/manager', express.static(client))
 app.use('/manager/static', express.static(client))
 
 const clientPrefix = '/manager'
+
 app.post(clientPrefix + '/login', (req, res) => {
   const { pass } = req.body
   if (hash === getHash(pass)) {
-    console.log('login', { pass })
     return res.json({ status: true })
+  } else {
+    return res.json({ status: false })
+  }
+})
+
+import { getAll } from './library/sent'
+
+app.post(clientPrefix + '/sent', async (req, res) => {
+  const { pass } = req.body
+  if (hash === getHash(pass)) {
+    const data = await getAll()
+    if (!data) return res.json({ status: true, data: [] })
+    return res.json({ status: true, data })
   } else {
     return res.json({ status: false })
   }

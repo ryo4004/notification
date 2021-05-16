@@ -37,6 +37,7 @@ export type StatusReturnType = {
 }
 
 export type SentData = {
+  timestamp: string
   topicKey: TopicsKeys
   title: string
   body: string
@@ -48,4 +49,8 @@ export type SentData = {
     sendError: unknown
     error: string | null
   }
+}
+
+export type SentDBData = SentData & {
+  _id: string
 }

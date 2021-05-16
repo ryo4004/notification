@@ -3,12 +3,14 @@ import { noop } from '../library/noop'
 
 type AuthenticationType = {
   login: boolean
+  pass: string
   requestLogin: (pass: string) => void
   requestLogout: () => void
 }
 
 export const AuthenticationContext = createContext<AuthenticationType>({
   login: false,
+  pass: '',
   requestLogin: noop,
   requestLogout: noop,
 })
@@ -19,6 +21,7 @@ export const useAuthenticationContext = () => {
 
 export const useAuthentication = (): AuthenticationType => {
   const [login, setLogin] = useState<boolean>(false)
+  const [pass, setPass] = useState<string>('')
   const requestLogin = async (pass: string) => {
     const response = await fetch('/manager/login', {
       method: 'POST',
@@ -30,12 +33,15 @@ export const useAuthentication = (): AuthenticationType => {
     const json = await response.json()
     if (json.status) {
       setLogin(true)
+      setPass(pass)
     } else {
       setLogin(false)
+      setPass('')
     }
   }
   const requestLogout = () => {
     setLogin(false)
+    setPass('')
   }
-  return { login, requestLogin, requestLogout }
+  return { login, pass, requestLogin, requestLogout }
 }
