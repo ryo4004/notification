@@ -27,15 +27,17 @@ export const sendNotification = async (notification: NotificationRequest): Promi
   return true
 }
 
-const reservationDB = new NeDB({
-  filename: path.join(__dirname, '../../database/reservation.db'),
-  autoload: true,
-  timestampData: true,
-})
+const getReservationDB = () => {
+  return new NeDB({
+    filename: path.join(__dirname, '../../database/reservation.db'),
+    autoload: true,
+    timestampData: true,
+  })
+}
 
 export const insert = (newData: NotificationRequest): Promise<true | null> => {
   return new Promise((resolve) => {
-    reservationDB.insert(newData, (error) => {
+    getReservationDB().insert(newData, (error) => {
       if (error) return resolve(null)
       resolve(true)
     })
@@ -44,7 +46,7 @@ export const insert = (newData: NotificationRequest): Promise<true | null> => {
 
 export const getAll = (): Promise<Array<NotificationRequestDBData> | null> => {
   return new Promise((resolve) => {
-    reservationDB
+    getReservationDB()
       .find({})
       .sort({ createdAt: -1 })
       .exec((error: unknown, docs: Array<NotificationRequestDBData>) => {
@@ -56,7 +58,7 @@ export const getAll = (): Promise<Array<NotificationRequestDBData> | null> => {
 
 export const requestRemove = (id: string): Promise<number | null> => {
   return new Promise((resolve) => {
-    reservationDB.remove({ _id: id }, {}, (error, num: number) => {
+    getReservationDB().remove({ _id: id }, {}, (error, num: number) => {
       if (error) return resolve(null)
       resolve(num)
     })
@@ -65,7 +67,7 @@ export const requestRemove = (id: string): Promise<number | null> => {
 
 export const removeAll = (): Promise<number | null> => {
   return new Promise((resolve) => {
-    reservationDB.remove({}, { multi: true }, (error, num: number) => {
+    getReservationDB().remove({}, { multi: true }, (error, num: number) => {
       if (error) return resolve(null)
       resolve(num)
     })
