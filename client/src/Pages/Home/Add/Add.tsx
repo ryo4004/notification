@@ -25,10 +25,14 @@ export const Add = () => {
           <textarea value={state.notification.body} onChange={(e) => updateAdd('body', e.target.value)} />
           <label>パス</label>
           <select onChange={(e) => updateAdd('path', e.target.value)}>
-            {path.map((p, i) => (
-              <option key={i} value={p.path} disabled={p.disabled}>
-                {p.label}
-              </option>
+            {path.map((g, i) => (
+              <optgroup key={i} label={g.label}>
+                {g.options.map((o, j) => (
+                  <option key={j} value={o.path} disabled={o.disabled}>
+                    {o.label}
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </select>
           <input type="text" value={state.notification.path} onChange={(e) => updateAdd('path', e.target.value)} />
