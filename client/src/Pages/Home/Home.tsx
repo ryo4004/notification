@@ -8,8 +8,12 @@ export const Home = () => {
   const { requestLogout } = useAuthenticationContext()
   return (
     <div className="home">
-      <h2>通知管理ページ</h2>
-      <button onClick={() => requestLogout()}>ログアウト</button>
+      <header>
+        <h2>通知管理ページ</h2>
+        <div onClick={() => requestLogout()} className="logout">
+          ログアウト
+        </div>
+      </header>
       <Add />
       <List />
     </div>
