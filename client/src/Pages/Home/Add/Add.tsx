@@ -2,6 +2,7 @@ import { useAuthenticationContext } from '../../../hooks/useAuthentication'
 import { useAdd } from './hooks/useAdd'
 
 import { TOPICS_KEYS, TOPICS_LABEL } from '../../../types/notification'
+import { path } from '../../../library/path'
 
 import type { TopicsKeysKey, TopicsKeys } from '../../../types/notification'
 
@@ -23,13 +24,20 @@ export const Add = () => {
           <label>本文</label>
           <textarea value={state.notification.body} onChange={(e) => updateAdd('body', e.target.value)} />
           <label>パス</label>
+          <select onChange={(e) => updateAdd('path', e.target.value)}>
+            {path.map((p, i) => (
+              <option key={i} value={p.path} disabled={p.disabled}>
+                {p.label}
+              </option>
+            ))}
+          </select>
           <input type="text" value={state.notification.path} onChange={(e) => updateAdd('path', e.target.value)} />
           <label>カテゴリ</label>
           <select value={state.notification.topic} onChange={(e) => updateTopic(e.target.value as TopicsKeys)}>
-            {(Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).map((t) => {
+            {(Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).map((t, i) => {
               const disabled = TOPICS_KEYS[t] === TOPICS_KEYS.IMPORTANT_SCHEDULE
               return (
-                <option value={TOPICS_KEYS[t]} disabled={disabled}>
+                <option key={i} value={TOPICS_KEYS[t]} disabled={disabled}>
                   {TOPICS_LABEL[t]}
                 </option>
               )
