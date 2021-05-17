@@ -13,20 +13,22 @@ export const List = () => {
         fetched &&
         content.reserved.map((n) => {
           return (
-            <div className="notification">
-              <div className="icon">
-                <img src="icon.png" />
-                <span>ウィンズ</span>
-                <span>今</span>
-              </div>
-              <div className="title">{n.title}</div>
-              <div>
-                {n.body.split('\n').map((b) => (
-                  <div>{b}</div>
-                ))}
-              </div>
+            <details className="notification">
+              <summary>
+                <div className="icon">
+                  <img src="icon.png" />
+                  <span>ウィンズ</span>
+                  <span>明日 10時</span>
+                </div>
+                <div className="title">{n.title}</div>
+                <div>
+                  {n.body.split('\n').map((b) => (
+                    <div>{b}</div>
+                  ))}
+                </div>
+              </summary>
               <button onClick={() => requestRemove(n._id)}>削除</button>
-            </div>
+            </details>
           )
         })}
       <h2>送信履歴</h2>
@@ -35,19 +37,21 @@ export const List = () => {
         fetched &&
         content.sent.map((n) => {
           return (
-            <div className="notification">
-              <div className="icon">
-                <img src="icon.png" />
-                <span>ウィンズ</span>
-                <span>{n.timestamp}</span>
-              </div>
-              <div className="title">{n.title}</div>
-              <div>
-                {n.body.split('\n').map((b) => (
-                  <div>{b}</div>
-                ))}
-              </div>
-            </div>
+            <details className="notification">
+              <summary>
+                <div className="icon">
+                  <img src="icon.png" />
+                  <span>ウィンズ</span>
+                  <span>{n.timestamp}</span>
+                </div>
+                <div className="title">{n.title}</div>
+                <div>
+                  {n.body.split('\n').map((b) => (
+                    <div>{b}</div>
+                  ))}
+                </div>
+              </summary>
+            </details>
           )
         })}
     </div>
