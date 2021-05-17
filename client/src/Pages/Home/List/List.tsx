@@ -1,9 +1,11 @@
 import { useStatusContext } from '../../../hooks/useStatus'
 
+import './List.scss'
+
 export const List = () => {
   const { loading, fetched, content, requestRemove } = useStatusContext()
   return (
-    <div>
+    <div className="list">
       <h2>送信予約</h2>
       {loading && '読み込み中'}
       {!loading && fetched && content.reserved.length === 0 && <>送信予約はありません</>}
@@ -12,6 +14,11 @@ export const List = () => {
         content.reserved.map((n) => {
           return (
             <div className="notification">
+              <div className="icon">
+                <img src="icon.png" />
+                <span>ウィンズ</span>
+                <span>今</span>
+              </div>
               <div className="title">{n.title}</div>
               <div>
                 {n.body.split('\n').map((b) => (
@@ -29,7 +36,11 @@ export const List = () => {
         content.sent.map((n) => {
           return (
             <div className="notification">
-              <div>{n.timestamp}</div>
+              <div className="icon">
+                <img src="icon.png" />
+                <span>ウィンズ</span>
+                <span>{n.timestamp}</span>
+              </div>
               <div className="title">{n.title}</div>
               <div>
                 {n.body.split('\n').map((b) => (
