@@ -42,7 +42,7 @@ export const List = () => {
                 <div className="icon">
                   <img src="icon.png" />
                   <span>ウィンズ</span>
-                  <span>{n.timestamp}</span>
+                  <span>{showTime(n.timestamp)}</span>
                 </div>
                 <div className="title">{n.title}</div>
                 <div>
@@ -56,4 +56,10 @@ export const List = () => {
         })}
     </div>
   )
+}
+
+const showTime = (datetime: string) => {
+  const date = datetime.split('T')[0]
+  const time = datetime.split('T')[1]
+  return date.split('-')[1] + '月' + date.split('-')[2] + '日 ' + time.split(':')[0] + ':' + time.split(':')[1]
 }
