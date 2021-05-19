@@ -19,16 +19,18 @@ type AddStateType = {
   notification: AddNotification
 }
 
+const initNotification = {
+  title: '',
+  body: '',
+  path: '/',
+  topicKey: TOPICS_KEYS.IMPORTANT_MANAGER,
+  immediately: false,
+}
+
 const initState = {
   loading: false,
   result: false,
-  notification: {
-    title: '',
-    body: '',
-    path: '/',
-    topicKey: TOPICS_KEYS.IMPORTANT_MANAGER,
-    immediately: false,
-  },
+  notification: initNotification,
 }
 
 export const useAdd = (pass: string) => {
@@ -74,7 +76,7 @@ export const useAdd = (pass: string) => {
     })
     const json = await response.json()
     getStatus()
-    setState({ ...state, loading: false, result: json.result })
+    setState({ ...state, loading: false, result: json.result, notification: initNotification })
   }
   return { state, updateAdd, updateTopicKey, updateCheckbox, requestSend }
 }
