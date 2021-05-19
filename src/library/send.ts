@@ -9,7 +9,7 @@ export type NotificationRequest = {
   title: string
   body: string
   path: string
-  topic: TopicsKeys
+  topicKey: TopicsKeys
   immediately: boolean
 }
 
@@ -20,7 +20,7 @@ type NotificationRequestDBData = NotificationRequest & {
 }
 
 export const sendNotification = async (notification: NotificationRequest): Promise<true> => {
-  const sender = await createSenderClass(notification.topic)
+  const sender = await createSenderClass(notification.topicKey)
   sender.setNotification(notification.title, notification.body)
   sender.setPath(notification.path)
   sender.setAnalytics('notification')

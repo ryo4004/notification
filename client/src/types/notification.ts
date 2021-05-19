@@ -32,7 +32,7 @@ type NotificationRequest = {
   title: string
   body: string
   path: string
-  topic: TopicsKeys
+  topicKey: TopicsKeys
   immediately: boolean
 }
 

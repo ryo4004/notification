@@ -15,7 +15,7 @@ import { getDateTime } from './library/library'
     // setTimeoutでNeDBのファイル読み込みエラーを回避する
     setTimeout(async () => {
       const notification = each
-      const sender = await createSenderClass(notification.topic)
+      const sender = await createSenderClass(notification.topicKey)
       sender.setNotification(notification.title, notification.body)
       sender.setPath(notification.path)
       await sender.send()
