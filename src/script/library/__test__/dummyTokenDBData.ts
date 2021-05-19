@@ -18,6 +18,8 @@ export const createDummyTokenDBData = (
       ...extraTopics,
     },
     _id: 'NEDB_ID',
+    createdAt: '',
+    updatedAt: '',
   }
   return {
     ...tokenDBData,

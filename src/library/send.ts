@@ -15,6 +15,8 @@ export type NotificationRequest = {
 
 type NotificationRequestDBData = NotificationRequest & {
   _id: string
+  createdAt: string
+  updatedAt: string
 }
 
 export const sendNotification = async (notification: NotificationRequest): Promise<true> => {
