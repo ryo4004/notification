@@ -21,7 +21,7 @@ export const List = () => {
             <details className="notification">
               <summary>
                 <div className="icon">
-                  <img src="icon.png" />
+                  <img src="icon.png" alt="icon" />
                   <span>ウィンズ</span>
                   <span>明日 10時</span>
                 </div>
@@ -56,7 +56,7 @@ export const List = () => {
             <details className="notification">
               <summary>
                 <div className="icon">
-                  <img src="icon.png" />
+                  <img src="icon.png" alt="icon" />
                   <span>ウィンズ</span>
                   <span>{showTime(n.timestamp)}</span>
                 </div>
