@@ -10,9 +10,9 @@ export const List = () => {
   const { loading, fetched, content, requestRemove } = useStatusContext()
   return (
     <div className="list">
-      <h2>送信予約</h2>
+      <h2>通知予約</h2>
       {loading && '読み込み中'}
-      {!loading && fetched && content.reserved.length === 0 && <>送信予約はありません</>}
+      {!loading && fetched && content.reserved.length === 0 && <>通知予約はありません</>}
       {!loading &&
         fetched &&
         content.reserved.map((n) => {
@@ -46,8 +46,8 @@ export const List = () => {
             </details>
           )
         })}
-      <h2>送信履歴</h2>
-      {!loading && fetched && content.sent.length === 0 && <>送信履歴はありません</>}
+      <h2>通知履歴</h2>
+      {!loading && fetched && content.sent.length === 0 && <>通知履歴はありません</>}
       {!loading &&
         fetched &&
         content.sent.map((n) => {

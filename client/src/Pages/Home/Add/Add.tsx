@@ -11,7 +11,7 @@ import './Add.scss'
 export const Add = () => {
   const { pass } = useAuthenticationContext()
   const { state, updateAdd, updateTopicKey, updateCheckbox, requestSend } = useAdd(pass)
-  const buttonLabel = state.notification.immediately ? 'リアルタイムで送信する' : '送信予約する'
+  const buttonLabel = state.notification.immediately ? 'リアルタイムで通知する' : '通知予約する'
   return (
     <div className="add">
       <details>
