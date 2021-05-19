@@ -10,7 +10,7 @@ import './Add.scss'
 
 export const Add = () => {
   const { pass } = useAuthenticationContext()
-  const { state, updateAdd, updateTopic, updateCheckbox, requestSend } = useAdd(pass)
+  const { state, updateAdd, updateTopicKey, updateCheckbox, requestSend } = useAdd(pass)
   const buttonLabel = state.notification.immediately ? 'リアルタイムで送信する' : '送信予約する'
   return (
     <div className="add">
@@ -37,7 +37,7 @@ export const Add = () => {
           </select>
           <input type="text" value={state.notification.path} onChange={(e) => updateAdd('path', e.target.value)} />
           <label>カテゴリ</label>
-          <select value={state.notification.topic} onChange={(e) => updateTopic(e.target.value as TopicsKeys)}>
+          <select value={state.notification.topicKey} onChange={(e) => updateTopicKey(e.target.value as TopicsKeys)}>
             {(Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).map((t, i) => {
               const disabled = TOPICS_KEYS[t] === TOPICS_KEYS.IMPORTANT_SCHEDULE
               return (

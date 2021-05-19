@@ -9,7 +9,7 @@ type AddNotification = {
   title: string
   body: string
   path: string
-  topic: TopicsKeys
+  topicKey: TopicsKeys
   immediately: boolean
 }
 
@@ -26,7 +26,7 @@ const initState = {
     title: '',
     body: '',
     path: '/',
-    topic: TOPICS_KEYS.IMPORTANT_MANAGER,
+    topicKey: TOPICS_KEYS.IMPORTANT_MANAGER,
     immediately: false,
   },
 }
@@ -43,12 +43,12 @@ export const useAdd = (pass: string) => {
       },
     })
   }
-  const updateTopic = (topic: TopicsKeys) => {
+  const updateTopicKey = (topicKey: TopicsKeys) => {
     setState({
       ...state,
       notification: {
         ...state.notification,
-        topic,
+        topicKey,
       },
     })
   }
@@ -76,5 +76,5 @@ export const useAdd = (pass: string) => {
     getStatus()
     setState({ ...state, loading: false, result: json.result })
   }
-  return { state, updateAdd, updateTopic, updateCheckbox, requestSend }
+  return { state, updateAdd, updateTopicKey, updateCheckbox, requestSend }
 }

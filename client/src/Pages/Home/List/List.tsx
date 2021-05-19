@@ -16,7 +16,7 @@ export const List = () => {
       {!loading &&
         fetched &&
         content.reserved.map((n) => {
-          const label = (Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).find((t) => TOPICS_KEYS[t] === n.topic)
+          const label = (Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).find((t) => TOPICS_KEYS[t] === n.topicKey)
           return (
             <details className="notification">
               <summary>

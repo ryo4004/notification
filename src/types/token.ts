@@ -36,6 +36,8 @@ export type TokenData = {
 
 export type TokenDBData = TokenData & {
   _id: string
+  createdAt: string
+  updatedAt: string
 }
 
 export type StatusReturnType = {
@@ -61,4 +63,6 @@ export type SentData = {
 
 export type SentDBData = SentData & {
   _id: string
+  createdAt: string
+  updatedAt: string
 }
