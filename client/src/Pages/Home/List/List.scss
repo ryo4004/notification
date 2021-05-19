@@ -2,6 +2,7 @@
   details.notification {
     summary {
       display: block;
+      cursor: pointer;
 
       .icon {
         display: flex;
@@ -23,6 +24,18 @@
           margin-left: auto;
           margin-right: 6px;
         }
+      }
+    }
+
+    .details {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 2px solid #ccc;
+
+      label {
+        display: block;
+        font-size: 14px;
+        color: #666;
       }
     }
   }

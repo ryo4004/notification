@@ -1,5 +1,9 @@
 import { useStatusContext } from '../../../hooks/useStatus'
 
+import { TOPICS_KEYS, TOPICS_LABEL } from '../../../types/notification'
+import { showTime } from '../../../library/library'
+import type { TopicsKeysKey } from '../../../types/notification'
+
 import './List.scss'
 
 export const List = () => {
@@ -12,6 +16,7 @@ export const List = () => {
       {!loading &&
         fetched &&
         content.reserved.map((n) => {
+          const label = (Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).find((t) => TOPICS_KEYS[t] === n.topic)
           return (
             <details className="notification">
               <summary>
@@ -27,7 +32,17 @@ export const List = () => {
                   ))}
                 </div>
               </summary>
-              <button onClick={() => requestRemove(n._id)}>削除</button>
+              <div className="details">
+                <label>登録時刻</label>
+                <div>{showTime(n.createdAt)}</div>
+                <label>予定時刻</label>
+                <div>直近の10:00</div>
+                <label>パス</label>
+                <div>{n.path}</div>
+                <label>カテゴリ</label>
+                <div>{label && TOPICS_LABEL[label]}</div>
+                <button onClick={() => requestRemove(n._id)}>削除</button>
+              </div>
             </details>
           )
         })}
@@ -36,6 +51,7 @@ export const List = () => {
       {!loading &&
         fetched &&
         content.sent.map((n) => {
+          const label = (Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).find((t) => TOPICS_KEYS[t] === n.topicKey)
           return (
             <details className="notification">
               <summary>
@@ -51,15 +67,28 @@ export const List = () => {
                   ))}
                 </div>
               </summary>
+              <div className="details">
+                <label>送信時刻</label>
+                <div>{showTime(n.timestamp)}</div>
+                <label>パス</label>
+                <div>{n.path}</div>
+                <label>カテゴリ</label>
+                <div>{label && TOPICS_LABEL[label]}</div>
+                <label>対象数</label>
+                <div>{n.tokens.length}</div>
+                <label>成功数</label>
+                <div>{n.result.sendResult?.successCount || 0}</div>
+                <label>失敗数</label>
+                <div>{n.result.sendResult?.failureCount || 0}</div>
+                <label>エラー</label>
+                <div>
+                  {Boolean(n.result.sendError) && <>エラー</>}
+                  {!Boolean(n.result.sendError) && <>なし</>}
+                </div>
+              </div>
             </details>
           )
         })}
     </div>
   )
-}
-
-const showTime = (datetime: string) => {
-  const date = datetime.split('T')[0]
-  const time = datetime.split('T')[1]
-  return date.split('-')[1] + '月' + date.split('-')[2] + '日 ' + time.split(':')[0] + ':' + time.split(':')[1]
 }
