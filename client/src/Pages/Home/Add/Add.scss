@@ -1,14 +1,65 @@
 .add {
-  label {
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 8px;
+  background: #eee;
+
+  details {
     display: block;
-  }
-  input {
-    display: block;
-  }
-  input[type='checkbox'] {
-    display: inline;
-    & + label {
-      display: inline;
+    summary {
+      list-style: none;
+      cursor: pointer;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      h2 {
+        margin: 0;
+      }
+    }
+
+    .details {
+      label {
+        display: block;
+        font-size: 14px;
+        color: #666;
+      }
+      input {
+        display: block;
+        margin-bottom: 8px;
+      }
+      select {
+        margin-bottom: 8px;
+      }
+
+      .checkbox {
+        margin: 8px 0;
+        padding: 8px 0;
+        input[type='checkbox'] {
+          display: none;
+          & + label {
+            display: inline;
+            margin: 8px 0;
+            padding: 8px;
+            border: 0.55px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+          }
+
+          &:checked + label {
+            background: rgba(182, 0, 5, 1);
+            border: 0.55px solid rgba(182, 0, 5, 1);
+            color: #fff;
+
+            content: '送らない';
+          }
+        }
+      }
+
+      button {
+        margin: 16px 0 0;
+      }
     }
   }
 }

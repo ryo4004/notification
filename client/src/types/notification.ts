@@ -38,6 +38,15 @@ type NotificationRequest = {
 
 export type NotificationRequestDBData = NotificationRequest & {
   _id: string
+  createdAt: string
+  updatedAt: string
+}
+
+// admin.messaging.BatchResponse は使わない
+type SendResult = {
+  failureCount: number
+  responses: any
+  successCount: number
 }
 
 type SentData = {
@@ -49,12 +58,14 @@ type SentData = {
   tokens: Array<string>
   analytics: string
   result: {
-    sendResult: unknown | null
-    sendError: unknown
+    sendResult: SendResult | null
+    sendError: unknown | null
     error: string | null
   }
 }
 
 export type SentDBData = SentData & {
   _id: string
+  createdAt: string
+  updatedAt: string
 }

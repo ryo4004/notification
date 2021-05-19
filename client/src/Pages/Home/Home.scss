@@ -1,6 +1,20 @@
 .home {
   padding: 8px;
 
+  header {
+    display: flex;
+    h2 {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .logout {
+      font-size: 14px;
+      margin-left: auto;
+      cursor: pointer;
+    }
+  }
+
   .notification {
     background: #eee;
     border-radius: 8px;
