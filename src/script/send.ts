@@ -21,7 +21,7 @@ import { getDateTime } from './library/library'
       await sender.send()
       await sender.saveResult()
       console.log('[send] done: ' + (i + 1) + ' / ' + reserved.length + ' sent: ' + getDateTime())
-    }, i * 100)
+    }, i * 1000)
   })
   await removeAll()
 })()
