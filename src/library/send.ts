@@ -6,6 +6,7 @@ import { createSenderClass } from '../library/sender'
 import type { TopicsKeys } from '../types/token'
 
 export type NotificationRequest = {
+  status: boolean
   title: string
   body: string
   path: string
