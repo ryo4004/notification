@@ -24,6 +24,7 @@ export const Add = () => {
           <label>本文</label>
           <textarea value={state.notification.body} onChange={(e) => updateAdd('body', e.target.value)} />
           <label>パス</label>
+          <input type="text" value={state.notification.path} onChange={(e) => updateAdd('path', e.target.value)} />
           <select onChange={(e) => updateAdd('path', e.target.value)}>
             {path.map((g, i) => (
               <optgroup key={i} label={g.label}>
@@ -35,7 +36,6 @@ export const Add = () => {
               </optgroup>
             ))}
           </select>
-          <input type="text" value={state.notification.path} onChange={(e) => updateAdd('path', e.target.value)} />
           <label>カテゴリ</label>
           <select value={state.notification.topicKey} onChange={(e) => updateTopicKey(e.target.value as TopicsKeys)}>
             {(Object.keys(TOPICS_KEYS) as TopicsKeysKey[]).map((t, i) => {
