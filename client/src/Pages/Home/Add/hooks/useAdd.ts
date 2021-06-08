@@ -6,6 +6,7 @@ import { useStatusContext } from '../../../../hooks/useStatus'
 import type { TopicsKeys } from '../../../../types/notification'
 
 type AddNotification = {
+  status: boolean
   title: string
   body: string
   path: string
@@ -20,6 +21,7 @@ type AddStateType = {
 }
 
 const initNotification = {
+  status: true,
   title: '',
   body: '',
   path: '/',

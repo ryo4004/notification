@@ -29,6 +29,7 @@ export const TOPICS_LABEL = {
 }
 
 type NotificationRequest = {
+  status: boolean
   title: string
   body: string
   path: string

@@ -6,6 +6,7 @@ import { createSenderClass } from '../library/sender'
 import type { TopicsKeys } from '../types/token'
 
 export type NotificationRequest = {
+  status: boolean
   title: string
   body: string
   path: string
@@ -49,8 +50,8 @@ export const insert = (newData: NotificationRequest): Promise<true | null> => {
 export const getAll = (): Promise<Array<NotificationRequestDBData> | null> => {
   return new Promise((resolve) => {
     getReservationDB()
-      .find({})
-      .sort({ createdAt: -1 })
+      .find({ status: true })
+      .sort({ createdAt: 1 })
       .exec((error: unknown, docs: Array<NotificationRequestDBData>) => {
         if (error) return resolve(null)
         resolve(docs)
@@ -70,6 +71,20 @@ export const requestRemove = (id: string): Promise<number | null> => {
 export const removeAll = (): Promise<number | null> => {
   return new Promise((resolve) => {
     getReservationDB().remove({}, { multi: true }, (error, num: number) => {
+      if (error) return resolve(null)
+      resolve(num)
+    })
+  })
+}
+
+export const updateSent = async (id: string, newData: NotificationRequestDBData): Promise<true> => {
+  await update(id, { ...newData, status: false })
+  return true
+}
+
+const update = (id: string, newData: NotificationRequestDBData) => {
+  return new Promise((resolve) => {
+    getReservationDB().update({ _id: id }, newData, {}, (error, num: number) => {
       if (error) return resolve(null)
       resolve(num)
     })
