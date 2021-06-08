@@ -50,7 +50,7 @@ export const getAll = (): Promise<Array<NotificationRequestDBData> | null> => {
   return new Promise((resolve) => {
     getReservationDB()
       .find({})
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: 1 })
       .exec((error: unknown, docs: Array<NotificationRequestDBData>) => {
         if (error) return resolve(null)
         resolve(docs)
