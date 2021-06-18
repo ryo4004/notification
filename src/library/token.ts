@@ -12,9 +12,9 @@ const tokenDB = new NeDB({
 const defaultTopics: Topics = {
   importantSchedule: true,
   importantManager: true,
-  scheduleUpdate: false,
-  historyUpdate: false,
-  othersUpdate: false,
+  scheduleUpdate: true,
+  historyUpdate: true,
+  othersUpdate: true,
 }
 
 const find = (token: string): Promise<TokenDBData | null> => {
